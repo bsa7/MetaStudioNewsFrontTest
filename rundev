@@ -1,4 +1,3 @@
 #!/bin/bash
 
-NODE_OPTIONS="--trace-warnings" pm2 restart development.config.js
-pm2 log
+npx webpack --watch

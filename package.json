@@ -19,7 +19,10 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
+    "@types/styled-components": "^5.0.1",
+    "bootstrap": "^4.4.1",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "styled-components": "^5.0.1"
   }
 }
