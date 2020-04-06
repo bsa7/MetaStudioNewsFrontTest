@@ -8,7 +8,11 @@
     "jsx": "react",
     "baseUrl": "./",
     "paths": {
-      "@lib": ["./src/lib"]
+      "@actions/*": ["src/actions/*"],
+      "@components/*": ["src/components/*"],
+      "@constants/*": ["src/constants/*"],
+      "@lib/*": ["src/lib/*"],
+      "@reducers/*": ["src/reducers/*"]
     }
   }
 }

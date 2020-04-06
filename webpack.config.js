@@ -1,29 +1,40 @@
+const path = require('path');
+const resolvePath = (pathname) => path.resolve(__dirname, pathname);
+const alias = {
+  "@actions": resolvePath("./src/actions"),
+  "@components": resolvePath("./src/components"),
+  "@constants": resolvePath("./src/constants"),
+  "@lib": resolvePath("./src/lib"),
+  "@reducers": resolvePath("./src/reducers")
+}
+
 module.exports = {
-  mode: "production",
-  devtool: "source-map",
+  mode: 'development',
+  devtool: 'source-map',
   resolve: {
-    extensions: [".ts", ".tsx"]
+    alias,
+    extensions: ['.ts', '.tsx', '.js']
   },
   module: {
     rules: [
       {
-        test: /\.ts(x?)$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
         use: [
           {
-            loader: "ts-loader"
+            loader: 'ts-loader'
           }
         ]
       },
       {
-        enforce: "pre",
+        enforce: 'pre',
         test: /\.js$/,
-        loader: "source-map-loader"
+        loader: 'source-map-loader'
       }
     ]
   },
   externals: {
-    react: "React",
-    "react-dom": "ReactDOM"
+    react: 'React',
+    'react-dom': 'ReactDOM'
   }
 }
