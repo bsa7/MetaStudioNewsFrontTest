@@ -14,7 +14,7 @@ export class Home extends React.Component<IHomeProps, IHomeState> {
   render() {
     return (
       <Root>
-        Home
+        <h1>Hello, world!</h1>
       </Root>
     )
   }
