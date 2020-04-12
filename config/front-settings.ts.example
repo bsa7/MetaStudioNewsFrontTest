@@ -1,0 +1,35 @@
+import { AnyMap } from "@lib/common-defs"
+
+export const hostSettings = {
+  domains: {
+    MAIN: 'dev.metastudio-news-front.ru',
+  },
+  environment: {
+    name: 'dev-server',
+    NODE_ENV: 'development',
+  },
+  port: 3001,
+  protocol: 'https:',
+}
+
+export const apiSettings = {
+  prefix: (currentDomain?: string) => {
+    const apiRu = 'https://dev.metastudio-news-api.ru'
+    const apis: AnyMap = {}
+    const { domains } = hostSettings
+    apis[domains.MAIN] = apiRu
+    return apis[currentDomain]
+  }
+}
+
+type Locale = {
+  RU?: string;
+  EN?: string;
+}
+
+export const availableLocales = (currentDomain?: string): Array<Locale> => {
+  return [
+    { RU: "ru" },
+    { EN: "en" },
+  ]
+}

@@ -1,3 +1,6 @@
+dist
 node_modules
 public
 tmp
+config/front-settings.ts
+development.config.js
