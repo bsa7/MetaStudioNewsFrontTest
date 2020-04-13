@@ -2,5 +2,6 @@
 
 npm run dev
 cat development.config.js
+pm2 delete all
 NODE_OPTIONS="--trace-warnings" pm2 restart development.config.js
 pm2 log

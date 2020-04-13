@@ -1,11 +1,12 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import { Layout, HomePage } from '@components/index'
+import { Layout } from '@components/index'
+import { Router } from '@components/router'
 
 if (typeof document !== 'undefined') {
   ReactDOM.render(
     <Layout>
-      <HomePage />
+      <Router />
     </Layout>,
     document.getElementById('app')
   )

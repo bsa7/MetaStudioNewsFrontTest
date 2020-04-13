@@ -1,21 +1,22 @@
 // import * as path from 'path'
 import * as React from 'react'
 import * as ReactDOMServer from 'react-dom/server'
-// import express from 'express'
-// import * as webpack from 'webpack'
-import { Layout, HomePage } from '@components/index'
+import { Layout } from '@components/index'
+import { Router } from '@components/router'
 import { hostSettings } from '@config/front-settings'
-import { renderIndexPage } from '@lib/server-helper'
+import { renderIndexPage, extractLocationInfo } from '@lib/server-helper'
+import { LocationInfoBrief, AppGlobal } from '@lib/common-defs'
 
 const safeRequire = (m: string) => eval('require')(m)
 const path = safeRequire('path')
 const express = safeRequire('express')
-const webpack = safeRequire('webpack')
-const webpackDevMiddleware = safeRequire('webpack-dev-middleware')
+// const webpack = safeRequire('webpack')
+// const webpackDevMiddleware = safeRequire('webpack-dev-middleware')
 const app = express()
-const webpackConfigFileName = path.resolve(__dirname, '../webpack.config.js')
-const config = safeRequire(webpackConfigFileName)
-const compiler = webpack(config)
+// const webpackConfigFileName = path.resolve(__dirname, '../webpack.config.js')
+// const config = safeRequire(webpackConfigFileName)()
+// console.log('#18', { config })
+// const compiler = webpack({})
 // app.use(webpackDevMiddleware(compiler, {
 //   publicPath: config.output.publicPath,
 // }))
@@ -23,17 +24,18 @@ const compiler = webpack(config)
 const appPort = hostSettings.port
 
 const server = (incomingRequest: any, serverResponse: any, next: any) => {
+  const locationInfoBrief: LocationInfoBrief = extractLocationInfo(incomingRequest);
+  (global as AppGlobal).locationInfoBrief = locationInfoBrief
   const initialState = {}
   const html = ReactDOMServer.renderToStaticMarkup(
     <Layout>
-      <HomePage />
+      <Router />
     </Layout>,
   )
   const head = '' // TODO
   renderIndexPage({ head, html, initialState }).then((pageContent) => {
     serverResponse.status(200).send(pageContent)
   }).catch((error) => {
-    console.error(error, { message: 'Произошла ошибка при рендеринге index.html' })
     serverResponse.end(error)
   })
 }
