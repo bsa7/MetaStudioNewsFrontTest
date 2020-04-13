@@ -1,14 +1,32 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import { Layout } from '@components/index'
+// import { createBrowserHistory } from 'history'
+import { ConnectedRouter } from 'connected-react-router'
 import { Router } from '@components/router'
+import { Provider } from 'react-redux'
+import { configureStore, history } from '@lib/configure-store'
 
-if (typeof document !== 'undefined') {
+// const history = createBrowserHistory()
+const store = configureStore({})
+
+const render = () => {
   ReactDOM.render(
-    <Layout>
-      <Router />
-    </Layout>,
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <Router />
+      </ConnectedRouter>
+    </Provider>,
     document.getElementById('app')
   )
-  console.log('#12 - client.js !')
+}
+
+if (history) {
+  history.listen(() => {
+    render()
+  })
+}
+
+if (typeof document !== 'undefined') {
+  // new Router()
+  render()
 }

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Root } from './styled'
+import { Layout } from '@components/layout'
 
 export interface IHomeProps {
 }
@@ -13,9 +14,11 @@ export class Home extends React.Component<IHomeProps, IHomeState> {
 
   render() {
     return (
-      <Root>
-        <h1>Hello, world!</h1>
-      </Root>
+      <Layout>
+        <Root>
+          <h1>Home page!</h1>
+        </Root>
+      </Layout>
     )
   }
 }

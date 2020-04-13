@@ -1,9 +1,9 @@
 import { get } from '@lib/router-helper'
-import { PathSetting } from '@lib/common-defs'
+import { HashMap, PathSetting } from '@lib/common-defs'
 
-export const pathSettings: Array<PathSetting> = [
-  get('/', 'HomePage'),
-  get('/login', 'AuthPage'),
-  get('/signup', 'AuthPage'),
-  get('.*', 'NotFoundPage', { status: 404 }),
-]
+export const pathSettings: HashMap<PathSetting> = {
+  HomePage: get('/', 'HomePage'),
+  LoginPage: get('/login', 'AuthPage'),
+  SignupPage: get('/signup', 'AuthPage'),
+  NotFoundPage: get('.*', 'NotFoundPage', { status: 404 }),
+}

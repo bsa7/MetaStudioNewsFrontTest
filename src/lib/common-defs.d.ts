@@ -8,17 +8,24 @@ export type HashMap<T> = {
   [key: string]: T;
 }
 
+export type EnumMap<K, V> = {
+  [key in keyof K]: V;
+}
+
 export type ApplicationPageName = keyof typeof ApplicationPages
 
 export type RouteParams = {
+  absolute?: boolean;
   domain?: string;
   status?: number;
 }
 
 export type PathSetting = {
-  domain?: string;
-  key?: string;
   componentName?: string;
+  domain?: string;
+  hostname?: string;
+  key?: string;
+  locationRegexp?: string;
   params?: RouteParams;
   pathname?: string;
 }

@@ -1,14 +1,15 @@
 // import * as path from 'path'
 import * as React from 'react'
 import * as ReactDOMServer from 'react-dom/server'
-import { Layout } from '@components/index'
+import { StaticRouter } from 'react-router-dom'
 import { Router } from '@components/router'
 import { hostSettings } from '@config/front-settings'
 import { renderIndexPage, extractLocationInfo } from '@lib/server-helper'
 import { LocationInfoBrief, AppGlobal } from '@lib/common-defs'
 
 const safeRequire = (m: string) => eval('require')(m)
-const path = safeRequire('path')
+// const path = safeRequire('path')
+new Router()
 const express = safeRequire('express')
 // const webpack = safeRequire('webpack')
 // const webpackDevMiddleware = safeRequire('webpack-dev-middleware')
@@ -28,13 +29,13 @@ const server = (incomingRequest: any, serverResponse: any, next: any) => {
   (global as AppGlobal).locationInfoBrief = locationInfoBrief
   const initialState = {}
   const html = ReactDOMServer.renderToStaticMarkup(
-    <Layout>
+    <StaticRouter>
       <Router />
-    </Layout>,
+    </StaticRouter>
   )
   const head = '' // TODO
   renderIndexPage({ head, html, initialState }).then((pageContent) => {
-    serverResponse.status(200).send(pageContent)
+    serverResponse.status(Router.status).send(pageContent)
   }).catch((error) => {
     serverResponse.end(error)
   })
