@@ -1,14 +1,22 @@
-module.exports = (templateParams) => `module.exports = {
-  apps: [
-    {
-      cwd: "./",
-      env: {
-        NODE_ENV: "development"
-      },
-      merge_logs: true,
-      name: "metastudio-news-front",
-      script: "${templateParams.htmlWebpackPlugin.files.js[0].replace('server', 'dist/server')}",
-    }
-  ]
+module.exports = (templateParams) => {
+  const serverFileName = templateParams.htmlWebpackPlugin.files.js.find((filename) => {
+    return /server.*\.js$/.test(filename)
+  })
+
+  return `module.exports = {
+    apps: [
+      {
+        cwd: "./",
+        env: {
+          NODE_ENV: "development"
+        },
+        ignore_watch: ["node_modules"],
+        merge_logs: true,
+        name: "metastudio-news-front",
+        script: "${serverFileName.replace('server', 'dist/server')}",
+        watch: ["dist"],
+      }
+    ]
+  }
+  `
 }
-`

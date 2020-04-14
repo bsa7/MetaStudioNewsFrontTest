@@ -13,23 +13,30 @@ const alias = {
   "@config": resolvePath("./config"),
   "@constants": resolvePath("./src/constants"),
   "@lib": resolvePath("./src/lib"),
-  "@reducers": resolvePath("./src/reducers")
+  "@reducers": resolvePath("./src/reducers"),
+  "@src": resolvePath("./src"),
 }
 
 module.exports = (env, args = {}) => {
   const mode = process.env.NODE_ENV || env || args.mode
+  const filename = mode === MODES.development ? '[name].js' : '[name]-[contenthash].js'
+
   return {
     context: __dirname,
+    // devServer: {
+    //   contentBase: resolvePath('./dist'),
+    //   hot: true,
+    // },
+    devtool: mode === MODES.development && 'source-map',
     entry: {
-      client: resolvePath('./src/client.tsx'),
-      server: resolvePath('./src/server.tsx'),
+      client: resolvePath('./src/client/index.tsx'),
+      server: resolvePath('./src/server/index.ts'),
     },
     // devServer: MODES.development && {
     //   contentBase: path.join(__dirname, 'dist'),
     //   compress: false,
     //   port: 3001,
     // },
-    devtool: mode === MODES.development && 'source-map',
     // externals: {
     //   react: 'React',
     //   'react-dom': 'ReactDOM'
@@ -96,7 +103,7 @@ module.exports = (env, args = {}) => {
     //   }
     // },
     output: {
-      filename: '[name]-[contenthash].js',
+      filename,
       path: resolvePath('./dist'),
       publicPath: './',
     },
@@ -108,7 +115,7 @@ module.exports = (env, args = {}) => {
         filename: resolvePath('./dist/index.template.html'),
         inject: false,
         minify: {
-          collapseWhitespace: true
+          collapseWhitespace: false
         },
         template: resolvePath('./src/index.ejs'),
       }),

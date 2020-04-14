@@ -4,8 +4,8 @@
   "description": "Test task - isomorpfic client application with Ruby on Rails backend.",
   "main": "src/server.tsx",
   "scripts": {
-    "build": "node_modules/.bin/webpack --mode=production",
-    "dev": "node_modules/.bin/webpack --mode=development"
+    "build": "node_modules/.bin/webpack --mode production",
+    "dev": "node_modules/.bin/webpack --mode development"
   },
   "keywords": [],
   "author": "",
@@ -31,9 +31,6 @@
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-middleware": "^3.7.2",
-    "webpack-dev-server": "^3.10.3",
-    "webpack-hot-middleware": "^2.25.0",
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {

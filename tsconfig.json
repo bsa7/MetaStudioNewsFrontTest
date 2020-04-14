@@ -18,7 +18,8 @@
       "@config*": ["config*"],
       "@constants*": ["src/constants*"],
       "@lib*": ["src/lib*"],
-      "@reducers*": ["src/reducers*"]
+      "@reducers*": ["src/reducers*"],
+      "@src*": ["src*"]
     },
     "sourceMap": true,
     "target": "es6",

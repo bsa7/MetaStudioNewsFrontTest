@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { Router } from '@components/router'
 import { seoLink } from '@lib/router-helper'
-import { Root } from './styled'
+import { Column, Root, Row } from './styled'
 import { Layout } from '@components/layout'
 
 export interface IAuthProps {
@@ -20,12 +20,18 @@ export class Auth extends React.Component<IAuthProps, IAuthState> {
     return (
       <Layout>
         <Root>
-          <h1>{currentRouteKey === Router.links.LoginPage ? 'Login' : 'Signup'}, friend!</h1>
-          <Link
-            to={seoLink(currentRouteKey === Router.links.LoginPage ? Router.links.SignupPage : Router.links.LoginPage)}
-          >
-            go to {currentRouteKey === Router.links.LoginPage ? 'signup' : 'login'} page
-          </Link>
+          <Column>
+            <Row>
+              <h1>{currentRouteKey === Router.links.LoginPage ? 'Login' : 'Signup'}, My Dear Friend!</h1>
+            </Row>
+            <Row>
+              <Link
+                to={seoLink(currentRouteKey === Router.links.LoginPage ? Router.links.SignupPage : Router.links.LoginPage)}
+              >
+                go to {currentRouteKey === Router.links.LoginPage ? 'signup' : 'login'} page
+              </Link>
+            </Row>
+          </Column>
         </Root>
       </Layout>
     )

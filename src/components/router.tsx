@@ -21,15 +21,11 @@ export class Router extends React.Component<RouterProps, RouterState> {
   constructor(props: RouterProps = {}) {
     super(props)
     if (Router.initialized) {
-      console.log('#25 - Router already initialized', {
-        'Router.status': Router.status,
-      })
       return Router.instance
     }
     Router.initialized = true
     Router.pathSettings = pathSettings
     this.routes = []
-    console.log('#33 Router initialization')
     Object.keys(Router.pathSettings).forEach((pathSettingKey) => {
       const pathSetting = Router.pathSettings[pathSettingKey]
       let locationRegexp = `^${pathSetting.pathname}$`
@@ -46,10 +42,6 @@ export class Router extends React.Component<RouterProps, RouterState> {
     })
     Router.links = {}
     Object.keys(Router.pathSettings).forEach((key) => Router.links[key] = key)
-    console.log('#45 Router initialized: ', {
-      'Router.pathSettings': Router.pathSettings,
-      'Router.links': Router.links,
-    })
     Router.instance = this
   }
   static initialized: boolean
@@ -70,12 +62,6 @@ export class Router extends React.Component<RouterProps, RouterState> {
     let route = this.routes.find((route: RouteSetting) => {
       const checkRegexp = new RegExp(route.locationRegexp)
       const pathnameMatched = checkRegexp.test(locationInfo.pathname)
-      // console.log('#65', {
-      //   locationInfo,
-      //   route,
-      //   checkRegexp,
-      //   pathnameMatched,
-      // })
       const hostMatched = (route.hostname && route.hostname == locationInfo.hostname) || !route.hostname
       return pathnameMatched && hostMatched
     })
@@ -90,7 +76,6 @@ export class Router extends React.Component<RouterProps, RouterState> {
 
   render() {
     const currentRoute: RouteSetting = this.findRoute()
-    // console.log('#90', { currentRoute })
     const currentRoutePageName: string = currentRoute.pathSetting.componentName
     const CurrentPage = ApplicationPages[currentRoutePageName as ApplicationPageName]
 

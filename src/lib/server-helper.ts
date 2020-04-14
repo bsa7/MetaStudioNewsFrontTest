@@ -19,6 +19,12 @@ const readFile = (fileName: string, type = 'utf8'): Promise<any> => {
   })
 }
 
+const compress = (value: AnyMap): string => {
+  const stringifiedValue = JSON.stringify(value)
+  const bufferedValue = Buffer.from(stringifiedValue)
+  return LZUTF8.compress(bufferedValue, { outputEncoding: 'Base64' })
+}
+
 export const renderIndexPage = (params: RenderIndexPageParams = <RenderIndexPageParams>{}): Promise<string> => {
   const indexFileTemplateName = path.resolve(__dirname, '../dist/index.template.html')
 
@@ -29,9 +35,7 @@ export const renderIndexPage = (params: RenderIndexPageParams = <RenderIndexPage
         const value = params[replacementKey]
         if (replacementKey && typeof value !== 'undefined') {
           if (replacementKey === 'initialState') {
-            result = result.replace(`#{${replacementKey}}`, LZUTF8.compress(JSON.stringify(value), {
-              outputEncoding: 'Base64',
-            }))
+            result = result.replace(`#{${replacementKey}}`, compress(value as AnyMap))
           } else {
             result = result.replace(`#{${replacementKey}}`, value.toString())
           }
