@@ -5,9 +5,13 @@ import webpackHotMiddleware from 'webpack-hot-middleware'
 import webpackHotServerMiddleware from 'webpack-hot-server-middleware'
 import { hostSettings } from '../../config/front-settings'
 import webpackConfig from '../../webpack.config.js'
+import { MODES } from '../constants/enums'
 
-const clientConfig = webpackConfig.find((config) => config.name === 'client')
-const compiler = webpack(webpackConfig as any[])
+const modeCommandLineArgument = process.argv.find((arg) => /--mode/.test(arg))
+const mode = modeCommandLineArgument ? modeCommandLineArgument.split('=')[1] : MODES.development
+const config = webpackConfig(mode)
+const clientConfig = config.find((config) => config.name === 'client')
+const compiler = webpack(config as any[])
 const clientCompiler = compiler.compilers.find((compiler) => compiler.name === 'client')
 const app = express()
 const PORT = hostSettings.port

@@ -1,5 +1,5 @@
 import { AnyMap, HashMap } from "@lib/common-defs"
-import { enums } from "@constants/enums"
+import { EMPTIES } from "@constants/enums"
 
 type SearchToParamsAttributes = {
   search: string;
@@ -32,7 +32,7 @@ export const paramsToSearch = (params: AnyMap, paramsToSearchOptions?: ParamsToS
   const { noEncode = undefined } = paramsToSearchOptions || {}
   const paramPairs: Array<string> = Object.keys(params).map((key) => {
     const value = noEncode ? params[key] : encodeURIComponent(params[key])
-    return enums.EMPTIES.includes(params[key]) ? undefined : `${key}=${value}`
+    return EMPTIES.includes(params[key]) ? undefined : `${key}=${value}`
   })
   return paramPairs.filter((x) => x).join('&')
 }

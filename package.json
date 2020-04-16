@@ -4,9 +4,7 @@
   "description": "Test task - isomorpfic client application with Ruby on Rails backend.",
   "main": "src/server.tsx",
   "scripts": {
-    "build:prod": "node_modules/.bin/webpack --mode production",
-    "build:dev": "node_modules/.bin/webpack --mode development",
-    "start": "ts-node src/server/index.ts"
+    "start:dev": "ts-node src/server/index.ts --mode=development"
   },
   "keywords": [],
   "author": "",
@@ -58,5 +56,8 @@
     "redux": "^4.0.5",
     "stream": "0.0.2",
     "styled-components": "^5.0.1"
+  },
+  "engines": {
+    "node": "13.9.0"
   }
 }
