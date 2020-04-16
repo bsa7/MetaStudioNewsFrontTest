@@ -16,7 +16,7 @@ export class Auth extends React.Component<IAuthProps, IAuthState> {
 
   render() {
     const currentRouteKey = Router.currentPathSetting.key
-    const titleText: string = `${currentRouteKey === Router.links.LoginPage ? 'Login' : 'Signup'}, my Dear Friend!`
+    const titleText: string = `${currentRouteKey === Router.links.LoginPage ? 'Login' : 'Signup'}, my Friend!!!`
     const linkText: string = currentRouteKey === Router.links.LoginPage
       ? 'Not registered yet? Signup!'
       : 'Already registered? Login!'
