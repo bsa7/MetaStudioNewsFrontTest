@@ -2,7 +2,7 @@ import { actionTypes } from '@constants/action-types'
 import { User } from '@lib/models'
 import { Action } from 'redux'
 
-type SessionReducerStore = {
+export type SessionReducerStore = {
   user: User;
 }
 

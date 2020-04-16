@@ -1,51 +1,57 @@
 import * as ApplicationPages from '@components/index'
+import { Stats } from 'webpack'
 
 export type AnyMap = {
-  [key: string]: any;
+  [key: string]: any
 }
 
 export type HashMap<T> = {
-  [key: string]: T;
+  [key: string]: T
 }
 
 export type EnumMap<K, V> = {
-  [key in keyof K]: V;
+  [key in keyof K]: V
 }
 
 export type ApplicationPageName = keyof typeof ApplicationPages
 
 export type RouteParams = {
-  absolute?: boolean;
-  domain?: string;
-  status?: number;
+  absolute?: boolean
+  domain?: string
+  status?: number
 }
 
 export type PathSetting = {
-  componentName?: string;
-  domain?: string;
-  hostname?: string;
-  key?: string;
-  locationRegexp?: string;
-  params?: RouteParams;
-  pathname?: string;
+  componentName?: string
+  domain?: string
+  hostname?: string
+  key?: string
+  locationRegexp?: string
+  params?: RouteParams
+  pathname?: string
 }
 
 export type LocationInfoBrief = {
-  hash: string;
-  hostname: string;
-  href: string;
-  origin?: string;
-  pathname: string;
-  protocol: string;
-  search: string;
+  hash: string
+  hostname: string
+  href: string
+  origin?: string
+  pathname: string
+  protocol: string
+  search: string
 }
 
 export type LocationInfo = LocationInfoBrief & {
-  hashParams?: HashMap<string | number | AnyMap>;
-  pathnameParams?: HashMap<string | number | AnyMap>;
-  searchParams?: HashMap<string | number | AnyMap>;
+  hashParams?: HashMap<string | number | AnyMap>
+  pathnameParams?: HashMap<string | number | AnyMap>
+  searchParams?: HashMap<string | number | AnyMap>
 }
 
 export type AppGlobal = NodeJS.Global & {
-  locationInfoBrief: LocationInfoBrief;
+  locationInfoBrief: LocationInfoBrief
+}
+
+export interface MiddlewareRenderer extends Record<string, any> {
+  clientStats: Stats
+  serverStats: Stats
 }

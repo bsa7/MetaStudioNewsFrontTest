@@ -1,17 +1,11 @@
-import * as path from 'path'
 import * as fs from 'fs'
 import * as LZUTF8 from 'lzutf8'
 import { hostSettings } from '@config/front-settings'
 import { constants } from '@constants/string-constants'
-import { AnyMap, LocationInfoBrief } from '@lib/common-defs'
+import { IApplicationState } from '@reducers/index'
+import { LocationInfoBrief } from '@lib/common-defs'
 
-type RenderIndexPageParams = {
-  head: string;
-  html: string;
-  initialState: AnyMap;
-}
-
-const readFile = (fileName: string, type = 'utf8'): Promise<any> => {
+export const readFile = (fileName: string, type = 'utf8'): Promise<any> => {
   return new Promise((resolve, reject) => {
     return fs.readFile(fileName, type, (err, data) => {
       return err ? reject(err) : resolve(data)
@@ -19,34 +13,10 @@ const readFile = (fileName: string, type = 'utf8'): Promise<any> => {
   })
 }
 
-const compress = (value: AnyMap): string => {
+export const compressApplicationState = (value: IApplicationState): string => {
   const stringifiedValue = JSON.stringify(value)
   const bufferedValue = Buffer.from(stringifiedValue)
   return LZUTF8.compress(bufferedValue, { outputEncoding: 'Base64' })
-}
-
-export const renderIndexPage = (params: RenderIndexPageParams = <RenderIndexPageParams>{}): Promise<string> => {
-  const indexFileTemplateName = path.resolve(__dirname, '../dist/index.template.html')
-
-  return new Promise((resolve, reject) => {
-    readFile(indexFileTemplateName).then((template: string) => {
-      let result = template
-      Object.keys(params).forEach((replacementKey: keyof RenderIndexPageParams) => {
-        const value = params[replacementKey]
-        if (replacementKey && typeof value !== 'undefined') {
-          if (replacementKey === 'initialState') {
-            result = result.replace(`#{${replacementKey}}`, compress(value as AnyMap))
-          } else {
-            result = result.replace(`#{${replacementKey}}`, value.toString())
-          }
-        }
-      })
-      resolve(result)
-    }).catch((error) => {
-      console.error(`Error when try to read file ${indexFileTemplateName}`)
-      reject(error)
-    })
-  })
 }
 
 export const extractLocationInfo = (incomingRequest: any): LocationInfoBrief => {

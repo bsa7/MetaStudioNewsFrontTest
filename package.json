@@ -4,8 +4,9 @@
   "description": "Test task - isomorpfic client application with Ruby on Rails backend.",
   "main": "src/server.tsx",
   "scripts": {
-    "build": "node_modules/.bin/webpack --mode production",
-    "dev": "node_modules/.bin/webpack --mode development"
+    "build:prod": "node_modules/.bin/webpack --mode production",
+    "build:dev": "node_modules/.bin/webpack --mode development",
+    "start": "ts-node src/server/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -17,9 +18,14 @@
     "@types/node-fetch": "^2.5.5",
     "@types/react": "^16.9.32",
     "@types/react-dom": "^16.9.6",
+    "@types/react-helmet": "^5.0.15",
     "@types/react-redux": "^7.1.7",
     "@types/react-router-dom": "^5.1.4",
     "@types/styled-components": "^5.0.1",
+    "@types/webpack": "^4.41.11",
+    "@types/webpack-dev-middleware": "^3.7.0",
+    "@types/webpack-hot-middleware": "^2.25.1",
+    "awesome-typescript-loader": "^5.2.1",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.5.2",
     "html-webpack-harddisk-plugin": "^1.0.1",
@@ -31,6 +37,9 @@
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
+    "webpack-dev-middleware": "^3.7.2",
+    "webpack-hot-middleware": "^2.25.0",
+    "webpack-hot-server-middleware": "^0.6.0",
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
@@ -43,9 +52,11 @@
     "net": "^1.0.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-helmet": "^6.0.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "redux": "^4.0.5",
+    "stream": "0.0.2",
     "styled-components": "^5.0.1"
   }
 }

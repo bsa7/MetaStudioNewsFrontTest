@@ -1,9 +1,14 @@
 import { combineReducers } from 'redux'
-import { connectRouter } from 'connected-react-router'
+import { connectRouter, RouterState } from 'connected-react-router'
 import { History } from 'history'
-import { sessionReducer } from '@reducers/session-reducer'
+import { sessionReducer, SessionReducerStore } from '@reducers/session-reducer'
 
 export const createRootReducer = (history: History) => combineReducers({
   router: connectRouter(history),
-  sessionReducer,
+  session: sessionReducer,
 })
+
+export type IApplicationState = {
+  router?: RouterState;
+  session?: SessionReducerStore;
+}

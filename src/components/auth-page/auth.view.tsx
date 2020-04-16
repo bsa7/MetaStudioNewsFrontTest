@@ -2,8 +2,8 @@ import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { Router } from '@components/router'
 import { seoLink } from '@lib/router-helper'
-import { Column, Root, Row } from './styled'
 import { Layout } from '@components/layout'
+import { Column, Root, Row } from './styled'
 
 export interface IAuthProps {
 }
@@ -16,19 +16,23 @@ export class Auth extends React.Component<IAuthProps, IAuthState> {
 
   render() {
     const currentRouteKey = Router.currentPathSetting.key
+    const titleText: string = `${currentRouteKey === Router.links.LoginPage ? 'Login' : 'Signup'}, my Dear Friend!`
+    const linkText: string = currentRouteKey === Router.links.LoginPage
+      ? 'Not registered yet? Signup!'
+      : 'Already registered? Login!'
 
     return (
       <Layout>
         <Root>
           <Column>
             <Row>
-              <h1>{currentRouteKey === Router.links.LoginPage ? 'Login' : 'Signup'}, My Dear Friend!</h1>
+            <h1>{titleText}</h1>
             </Row>
             <Row>
               <Link
                 to={seoLink(currentRouteKey === Router.links.LoginPage ? Router.links.SignupPage : Router.links.LoginPage)}
               >
-                go to {currentRouteKey === Router.links.LoginPage ? 'signup' : 'login'} page
+                {linkText}
               </Link>
             </Row>
           </Column>

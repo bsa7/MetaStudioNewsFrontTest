@@ -1,23 +1,23 @@
-import { hostSettings } from '@config/front-settings'
-import { server } from '@src/server/server'
+import express from 'express'
+import webpack from 'webpack'
+import webpackDevMiddleware from 'webpack-dev-middleware'
+import webpackHotMiddleware from 'webpack-hot-middleware'
+import webpackHotServerMiddleware from 'webpack-hot-server-middleware'
+import { hostSettings } from '../../config/front-settings'
+import webpackConfig from '../../webpack.config.js'
 
-// const path = require('path')
-const safeRequire = (m: string) => eval('require')(m)
-const express = safeRequire('express')
-// const webpack = safeRequire('webpack')
-// const webpackDevMiddleware = safeRequire('webpack-dev-middleware')
+const clientConfig = webpackConfig.find((config) => config.name === 'client')
+const compiler = webpack(webpackConfig as any[])
+const clientCompiler = compiler.compilers.find((compiler) => compiler.name === 'client')
 const app = express()
-// const webpackConfigFileName = path.resolve(__dirname, '../webpack.config.js')
-// const config = safeRequire(webpackConfigFileName)()
-// const compiler = webpack(config)
-// console.log('#18', { config })
-// app.use(webpackDevMiddleware(compiler, {
-//   publicPath: config.output.publicPath,
-// }))
-const appPort = hostSettings.port
-// TODO
-app.get("*", server)
-app.listen(appPort, () => {
-  console.log(`Приложение слушает на 0.0.0.0:${appPort}`)
-  console.log('Компиляция webpack...')
-})
+const PORT = hostSettings.port
+
+app.use(webpackDevMiddleware(compiler, {
+  index: false,
+  publicPath: clientConfig.output.publicPath,
+  serverSideRender: true,
+}))
+
+app.use(webpackHotMiddleware(clientCompiler))
+app.use(webpackHotServerMiddleware(compiler as any))
+app.listen(PORT, () => console.log(`Webpack listening on port ${PORT}`))
