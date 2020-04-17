@@ -2,6 +2,7 @@ const nodeExternals = require('webpack-node-externals')
 const baseConfig = require('./webpack.base.config')
 
 module.exports = {
+  devtool: 'source-map',
   entry: [baseConfig.resolvePath('../../src/server/server.tsx')],
   externals: [nodeExternals()],
   mode: 'development',

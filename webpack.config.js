@@ -1,16 +1,13 @@
-import { MODES } from './src/constants/enums'
 const clientDevelopmentConfig = require('./config/webpack-config/webpack.development.client.config')
 const serverDevelopmentConfig = require('./config/webpack-config/webpack.development.server.config')
+const productionConfig = require('./config/webpack-config/webpack.production.config')
 
-export default (env) => {
-  if (env === MODES.development) {
+module.exports = (env, argv) => {
+  if (env === 'development') {
     return [
       { name: 'client', ...clientDevelopmentConfig },
       { name: 'server', ...serverDevelopmentConfig },
     ]
   }
-  return [
-    { name: 'client', ...clientDevelopmentConfig },
-    { name: 'server', ...serverDevelopmentConfig },
-  ]
+  return productionConfig
 }

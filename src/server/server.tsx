@@ -12,7 +12,7 @@ import { HtmlTemplate } from '@components/shared/index.template.html'
 import { IApplicationState } from '@reducers/index'
 new Router()
 
-const server = (incomingRequest: any, serverResponse: any, clientStats: Stats) => {
+const server = (incomingRequest: any, serverResponse: any, clientStats?: Stats) => {
   const locationInfoBrief: LocationInfoBrief = extractLocationInfo(incomingRequest);
   (global as AppGlobal).locationInfoBrief = locationInfoBrief
   const initialState: IApplicationState = {}
@@ -31,4 +31,8 @@ const server = (incomingRequest: any, serverResponse: any, clientStats: Stats) =
 export default function middlewareRenderer(params: MiddlewareRenderer): RequestHandler {
   const { clientStats } = params
   return (req: any, res: any) => server(req, res, clientStats)
+}
+
+export const productionServer = (req: any, res: any, next: any) => {
+  server(req, res)
 }

@@ -1,6 +1,7 @@
 const baseConfig = require('./webpack.base.config')
 
 module.exports = {
+  devtool: 'source-map',
   entry: {
     main: [baseConfig.resolvePath('../../src/client/index.tsx'), 'webpack-hot-middleware/client'],
   },
