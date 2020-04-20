@@ -3,14 +3,15 @@ const resolvePath = (pathname) => path.resolve(__dirname, pathname)
 const webpack = require('webpack');
 
 const alias = {
-  "@actions": resolvePath("../../src/actions"),
-  "@components": resolvePath("../../src/components"),
-  "@config": resolvePath("../../config"),
-  "@constants": resolvePath("../../src/constants"),
-  "@lib": resolvePath("../../src/lib"),
-  "@middlewares": resolvePath("../../src/middlewares"),
-  "@reducers": resolvePath("../../src/reducers"),
-  "@src": resolvePath("../../src"),
+  "@actions": resolvePath('../../src/actions'),
+  "@components": resolvePath('../../src/components'),
+  "@config": resolvePath('../../config'),
+  "@constants": resolvePath('../../src/constants'),
+  "@interface-components": resolvePath('../../src/components/shared/interface'),
+  "@lib": resolvePath('../../src/lib'),
+  "@middlewares": resolvePath('../../src/middlewares'),
+  "@reducers": resolvePath('../../src/reducers'),
+  "@src": resolvePath('../../src'),
 }
 
 module.exports = {

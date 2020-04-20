@@ -96,3 +96,5 @@ export type ApiResponse = {
 export interface IFetchParams {
   userAuthToken?: string
 }
+
+export type FormEditHandler = () => void
