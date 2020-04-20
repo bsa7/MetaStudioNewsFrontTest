@@ -5,9 +5,16 @@ import { ConnectedRouter } from 'connected-react-router'
 import { Router } from '@components/router'
 import { Provider } from 'react-redux'
 import { configureStore } from '@lib/configure-store'
+import { currentLocation } from '@lib/isomorphic-helper'
+import { IApplicationState } from '@reducers/index'
 
 const history = createBrowserHistory()
-const store = configureStore({}, history)
+const initialState: IApplicationState = {
+  session: {
+    locationInfo: currentLocation.locationInfo()
+  }
+}
+const store = configureStore(initialState, history)
 const rootElement = document.getElementById('app')
 
 const Root = () => (

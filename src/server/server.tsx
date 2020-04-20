@@ -15,6 +15,7 @@ import { createRootReducer, IApplicationState } from '@reducers/index'
 import { configureStore } from '@lib/configure-store'
 import { Store } from 'redux'
 import { fetchComponentData } from '@lib/fetch-component-data'
+import { currentLocation } from '@lib/isomorphic-helper'
 
 const fetchData = (store: Store): Promise<IApplicationState> => {
   return new Promise((resolve) => fetchComponentData(store.dispatch).then(() => {
@@ -27,7 +28,11 @@ const server = (incomingRequest: any, serverResponse: any, clientStats?: Stats) 
   const locationInfoBrief: LocationInfoBrief = extractLocationInfo(incomingRequest);
   (global as AppGlobal).locationInfoBrief = locationInfoBrief
   const helmet = Helmet.renderStatic()
-  const initialState = {} as IApplicationState
+  const initialState: IApplicationState = {
+    session: {
+      locationInfo: currentLocation.locationInfo()
+    }
+  }
 
   const store = configureStore(initialState)
   fetchData(store).then((state) => {

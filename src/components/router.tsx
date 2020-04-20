@@ -74,7 +74,7 @@ export class Router extends React.Component<IRouterProps, IRouterState> {
     return route
   }
 
-  public get currentPathSetting() {
+  public get currentPathSetting(): PathSetting {
     const currentRoute = this.findRoute()
     return currentRoute.pathSetting
   }
