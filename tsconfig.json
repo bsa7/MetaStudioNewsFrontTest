@@ -18,13 +18,15 @@
       "@config*": ["config*"],
       "@constants*": ["src/constants*"],
       "@lib*": ["src/lib*"],
+      "@middlewares*": ["src/middlewares*"],
       "@reducers*": ["src/reducers*"],
       "@src*": ["src*"]
     },
     "sourceMap": true,
     "target": "es6",
     "types": [
-      "node"
+      "node",
+      "jest"
     ]
   }
 }

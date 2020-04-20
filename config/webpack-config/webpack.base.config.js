@@ -8,6 +8,7 @@ const alias = {
   "@config": resolvePath("../../config"),
   "@constants": resolvePath("../../src/constants"),
   "@lib": resolvePath("../../src/lib"),
+  "@middlewares": resolvePath("../../src/middlewares"),
   "@reducers": resolvePath("../../src/reducers"),
   "@src": resolvePath("../../src"),
 }

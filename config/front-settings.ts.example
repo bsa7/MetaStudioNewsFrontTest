@@ -5,8 +5,7 @@ export const hostSettings = {
     MAIN: 'dev.metastudio-news-front.ru',
   },
   environment: {
-    name: 'dev-server',
-    NODE_ENV: 'development',
+    name: 'production', // pass 'development' if you want turn on redux tools on production server
   },
   port: 3001,
   protocol: 'https:',

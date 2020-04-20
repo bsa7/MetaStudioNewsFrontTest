@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
-import { Router } from '@components/router'
+import { router } from '@components/router'
 import { seoLink } from '@lib/router-helper'
 import { Layout } from '@components/layout'
 import { Column, Root, Row } from './styled'
@@ -15,9 +15,9 @@ export class Auth extends React.Component<IAuthProps, IAuthState> {
   state: IAuthState = {}
 
   render() {
-    const currentRouteKey = Router.currentPathSetting.key
-    const titleText: string = `${currentRouteKey === Router.links.LoginPage ? 'Login' : 'Signup'}, my Friend!!!`
-    const linkText: string = currentRouteKey === Router.links.LoginPage
+    const currentRouteKey = router.currentPathSetting.key
+    const titleText: string = `${currentRouteKey === router.links.LoginPage ? 'Login' : 'Signup'}, my Friend!!!`
+    const linkText: string = currentRouteKey === router.links.LoginPage
       ? 'Not registered yet? Signup!'
       : 'Already registered? Login!'
 
@@ -30,7 +30,7 @@ export class Auth extends React.Component<IAuthProps, IAuthState> {
             </Row>
             <Row>
               <Link
-                to={seoLink(currentRouteKey === Router.links.LoginPage ? Router.links.SignupPage : Router.links.LoginPage)}
+                to={seoLink(currentRouteKey === router.links.LoginPage ? router.links.SignupPage : router.links.LoginPage)}
               >
                 {linkText}
               </Link>

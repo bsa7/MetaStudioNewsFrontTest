@@ -28,7 +28,7 @@ export const HtmlTemplate: React.FunctionComponent<IHtmlProps> = (props) => {
         <div className="aaabbb" id='app'>{children}</div>
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.applicationState = '${compressApplicationState(initialState)}'`,
+            __html: `window.__PRELOADED_STATE__ = '${compressApplicationState(initialState)}'`,
           }}
         />
         <script src='./client.js'></script>

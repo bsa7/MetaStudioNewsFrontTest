@@ -1,5 +1,7 @@
-import * as ApplicationPages from '@components/index'
+import React from 'react'
+import { Dispatch } from 'redux'
 import { Stats } from 'webpack'
+import * as ApplicationPages from '@components/index'
 
 export type AnyMap = {
   [key: string]: any
@@ -11,6 +13,10 @@ export type HashMap<T> = {
 
 export type EnumMap<K, V> = {
   [key in keyof K]: V
+}
+
+export type ApplicationPage = typeof React.Component & {
+  fetchData?: (dispatch: Dispatch) => Promise<void>
 }
 
 export type ApplicationPageName = keyof typeof ApplicationPages
@@ -51,7 +57,25 @@ export type AppGlobal = NodeJS.Global & {
   locationInfoBrief: LocationInfoBrief
 }
 
+export type AppWindow = typeof window & typeof globalThis & {
+  __PRELOADED_STATE__: string
+  $REDUX_DEVTOOL: any
+}
+
 export interface MiddlewareRenderer extends Record<string, any> {
   clientStats: Stats
   serverStats: Stats
+}
+
+export type CookieOptions = {
+  'maxAge'?: number
+  'max-age'?: number
+  'expires'?: string
+  'path'?: string
+}
+
+export interface ICookieAdapter {
+  get: (name: string) => string
+  remove: (name: string) => void
+  save: (name: string, value: string, options: CookieOptions) => void
 }

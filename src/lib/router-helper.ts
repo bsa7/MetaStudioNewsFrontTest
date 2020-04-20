@@ -15,7 +15,6 @@ export const get = (pathname: string, componentName: string, params: RouteParams
 
 export const seoLink = (pathSettingKey: string, params: RouteParams = <RouteParams>{}): string => {
   const pathSetting = pathSettings[pathSettingKey]
-  // console.log('#18', { pathSettingKey, pathSetting })
   let { pathname } = pathSetting
   let hostname: string
   if (params.absolute || params.domain) {
