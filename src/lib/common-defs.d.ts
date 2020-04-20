@@ -83,3 +83,11 @@ export interface ICookieAdapter {
   remove: (name: string) => void
   save: (name: string, value: string, options: CookieOptions) => void
 }
+
+export type ApiResponse = {
+  [key: string]: any
+}
+
+export interface IFetchParams {
+  userAuthToken?: string
+}

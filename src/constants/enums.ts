@@ -8,3 +8,10 @@ export const MODES = {
 }
 
 export type ApplicationLinks = EnumMap<typeof pathSettings>
+
+export enum RestMethod {
+  delete = 'delete',
+  get = 'get',
+  post = 'post',
+  put = 'put',
+}
