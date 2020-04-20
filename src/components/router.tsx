@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { pathSettings } from '@config/routes'
-import { EnumMap, HashMap, LocationInfo, PathSetting } from '@lib/common-defs'
+import { LocationInfo, PathSetting, PathSettings } from '@lib/common-defs'
 import * as ApplicationPages from '@components/index'
 import { currentLocation } from '@lib/isomorphic-helper'
 import { getPropInSafe, traceError } from '@lib/sys-helper'
 import { ApplicationPageName } from '@lib/common-defs'
-import { Route } from 'react-router-dom'
+import { ApplicationLinks } from '@constants/enums'
 
 type IRouterProps = {
 }
@@ -21,9 +21,9 @@ type RouteSetting = {
 
 export class Router extends React.Component<IRouterProps, IRouterState> {
   private routes: Array<RouteSetting>
-  private pathSettings: HashMap<PathSetting>
+  private internalPathSettings: PathSettings
   public status: number
-  public links: EnumMap<typeof pathSettings, string>
+  public links: ApplicationLinks
   static initialized: boolean
   static instance: Router
 
@@ -39,15 +39,15 @@ export class Router extends React.Component<IRouterProps, IRouterState> {
   }
 
   private init(): void {
-    this.pathSettings = pathSettings
+    this.internalPathSettings = pathSettings
     this.routes = []
-    Object.keys(this.pathSettings).forEach((pathSettingKey) => {
-      const pathSetting = this.pathSettings[pathSettingKey]
+    Object.keys(this.internalPathSettings).forEach((pathSettingKey) => {
+      const pathSetting = this.internalPathSettings[pathSettingKey]
       let locationRegexp = `^${pathSetting.pathname}$`
-      this.pathSettings[pathSettingKey].key = pathSettingKey
-      this.pathSettings[pathSettingKey].hostname = (pathSetting.params || {}).domain
-      this.pathSettings[pathSettingKey].locationRegexp = locationRegexp
-      this.pathSettings[pathSettingKey].pathname = pathSetting.pathname
+      this.internalPathSettings[pathSettingKey].key = pathSettingKey
+      this.internalPathSettings[pathSettingKey].hostname = (pathSetting.params || {}).domain
+      this.internalPathSettings[pathSettingKey].locationRegexp = locationRegexp
+      this.internalPathSettings[pathSettingKey].pathname = pathSetting.pathname
       this.routes.push({
         hostname: (pathSetting.params || {}).domain,
         locationRegexp,
@@ -55,8 +55,8 @@ export class Router extends React.Component<IRouterProps, IRouterState> {
         pathSetting,
       })
     })
-    this.links = {}
-    Object.keys(this.pathSettings).forEach((key) => this.links[key] = key)
+    this.links = {} as ApplicationLinks
+    Object.keys(this.internalPathSettings).forEach((key) => this.links[key as keyof ApplicationLinks] = key)
   }
 
   private findRoute = (locationInfo: LocationInfo = currentLocation.locationInfo()): RouteSetting => {

@@ -3,6 +3,7 @@ import { PathSetting, RouteParams } from '@lib/common-defs'
 import { hostSettings } from '@config/front-settings'
 import { currentLocation } from '@lib/isomorphic-helper'
 import { paramsToSearch } from '@lib/json-api-helper'
+import { ApplicationLinks } from '@constants/enums'
 
 export const get = (pathname: string, componentName: string, params: RouteParams = <RouteParams>{}): PathSetting => {
   const pathSetting: PathSetting = {
@@ -14,14 +15,14 @@ export const get = (pathname: string, componentName: string, params: RouteParams
 }
 
 export const seoLink = (pathSettingKey: string, params: RouteParams = <RouteParams>{}): string => {
-  const pathSetting = pathSettings[pathSettingKey]
+  const pathSetting = pathSettings[pathSettingKey as keyof ApplicationLinks]
   let { pathname } = pathSetting
   let hostname: string
   if (params.absolute || params.domain) {
-    Reflect.deleteProperty(params, 'absolute')
+    delete params.absolute
     if (params.domain) {
       hostname = `${hostSettings.protocol}//${params.domain}`
-      Reflect.deleteProperty(params, 'domain')
+      delete params.domain
     } else {
       const currentDomain = (() => {
         return currentLocation.locationInfo().hostname
@@ -33,7 +34,7 @@ export const seoLink = (pathSettingKey: string, params: RouteParams = <RoutePara
   Object.keys(params).forEach((key: keyof RouteParams) => {
     if (pathname.indexOf(`:${key}`) >= 0) {
       pathname = pathname.replace(`:${key}`, params[key].toString())
-      Reflect.deleteProperty(params, key)
+      delete params[key]
     }
   })
   const search = paramsToSearch(params)

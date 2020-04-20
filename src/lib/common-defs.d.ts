@@ -11,8 +11,8 @@ export type HashMap<T> = {
   [key: string]: T
 }
 
-export type EnumMap<K, V> = {
-  [key in keyof K]: V
+export type EnumMap<K> = {
+  [key in keyof K]: string
 }
 
 export type ApplicationPage = typeof React.Component & {
@@ -35,6 +35,10 @@ export type PathSetting = {
   locationRegexp?: string
   params?: RouteParams
   pathname?: string
+}
+
+export type PathSettings = {
+  [key: string]: PathSetting
 }
 
 export type LocationInfoBrief = {
