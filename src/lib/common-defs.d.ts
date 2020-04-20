@@ -1,5 +1,6 @@
 import React from 'react'
 import { Dispatch } from 'redux'
+import { ConnectedComponent } from 'react-redux'
 import { Stats } from 'webpack'
 import * as ApplicationPages from '@components/index'
 
@@ -15,7 +16,11 @@ export type EnumMap<K> = {
   [key in keyof K]: string
 }
 
-export type ApplicationPage = typeof React.Component & {
+export type ValuesOf<T extends any[]>= T[number]
+
+export type ValueOf<T extends object> = T[keyof T]
+
+export type ApplicationPage = ValueOf<typeof ApplicationPages> & {
   fetchData?: (dispatch: Dispatch) => Promise<void>
 }
 

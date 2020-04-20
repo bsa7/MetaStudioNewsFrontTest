@@ -29,3 +29,16 @@ export const loginUser = (loginUserParams: ILoginUserParams) => {
     path: '/authenticate',
   })
 }
+
+interface IRegisterUserParams extends ILoginUserParams {
+  passwordConfirmation: string
+}
+export const registerUser = (registerUserParams: IRegisterUserParams) => {
+  const { email, password, passwordConfirmation } = registerUserParams
+  return createAsyncAction<IRegisterUserParams>({
+    actionName: actionNames.REGISTER_USER,
+    method: RestMethod.post,
+    params: { email, password, passwordConfirmation },
+    path: '/users/new',
+  })
+}

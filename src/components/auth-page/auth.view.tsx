@@ -7,7 +7,7 @@ import { LocationInfo } from '@lib/common-defs'
 import { Column, Root, Row } from './styled'
 
 export interface IAuthProps {
-  currentLocation?: LocationInfo
+  locationInfo?: LocationInfo
 }
 
 export interface IAuthState {
@@ -17,6 +17,7 @@ export class Auth extends React.Component<IAuthProps, IAuthState> {
   state: IAuthState = {}
 
   render() {
+    const { locationInfo } = this.props
     const { links } = router
     const currentRouteKey = router.currentPathSetting.key
     const titleText: string = `${currentRouteKey === links.LoginPage ? 'Login' : 'Signup'}, my Friend!!!`
