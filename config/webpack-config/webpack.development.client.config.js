@@ -1,17 +1,41 @@
-const baseConfig = require('./webpack.base.config')
+const baseConfig = require('./webpack.base.config')('development')
 
 module.exports = {
   devtool: 'source-map',
+  devServer: {
+    colors: true,
+    inline: true,
+    hot: true,
+    contentBase: './dist',
+  },
   entry: {
-    main: [baseConfig.resolvePath('../../src/client/index.tsx'), 'webpack-hot-middleware/client'],
+    jsMain: [
+      baseConfig.resolvePath('../../src/client/index.tsx'),
+      'webpack-hot-middleware/client',
+    ],
+    cssBootstrap: [
+      baseConfig.resolvePath('../../src/assets/scss/bootstrap.scss'),
+      'webpack-hot-middleware/client',
+    ],
+    cssUnstyled: [
+      baseConfig.resolvePath('../../src/assets/scss/application.scss'),
+      'webpack-hot-middleware/client',
+    ]
   },
   mode: 'development',
   module: baseConfig.module,
   output: {
     path: baseConfig.resolvePath('../../dist'),
-    filename: 'client.js',
+    filename: '[name]-[hash].js',
     publicPath: '/',
   },
-  plugins: baseConfig.plugins,
+  plugins: [
+    ...baseConfig.plugins,
+    new baseConfig.MiniCssExtractPlugin({
+      chunkFilename: '[id].[hash].css',
+      filename: '[name]-[hash].css',
+    }),
+  ],
   resolve: baseConfig.resolve,
+  stats: baseConfig.stats,
 }

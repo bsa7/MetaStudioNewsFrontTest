@@ -15,3 +15,8 @@ export enum RestMethod {
   post = 'post',
   put = 'put',
 }
+
+export enum ThemeName {
+  Bootstrap = 'Bootstrap',
+  Unstyled = 'Unstyled',
+}

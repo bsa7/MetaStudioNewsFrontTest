@@ -4,20 +4,30 @@ import { fetchJsonFromAPI } from '@lib/api-helper'
 import { IApplicationState } from '@reducers/index'
 import { actionNamesArray } from '@constants/action-types'
 
-type ActionResult = {
+type AsyncActionResult = {
   promise: Promise<ApiResponse>
   types: [string, string, string]
 }
 
-interface IActionParams<T> {
+type SyncActionResult<R> = {
+  type: string
+  result: R
+}
+
+interface IAsyncActionParams<T> {
   actionName: string
   method?: RestMethod
   params?: T
   path: string
   userAuthToken?: string
 }
+interface ISyncActionParams<T> {
+  actionName: string
+  result?: T
+}
 
-export const createAsyncAction = <T>(actionParams: IActionParams<T>): ActionResult => {
+
+export const createAsyncAction = <T>(actionParams: IAsyncActionParams<T>): AsyncActionResult => {
   const { actionName, method = RestMethod.get, path, params = {} as T, userAuthToken } = actionParams
   return {
     promise: fetchJsonFromAPI({
@@ -31,6 +41,14 @@ export const createAsyncAction = <T>(actionParams: IActionParams<T>): ActionResu
       `${actionName}__SUCCESS`,
       `${actionName}__FAILURE`,
     ]
+  }
+}
+
+export const createSyncAction = <T>(actionParams: ISyncActionParams<T>): SyncActionResult<T> => {
+  const { actionName, result } = actionParams
+  return {
+    type: `${actionName}__START`,
+    result,
   }
 }
 

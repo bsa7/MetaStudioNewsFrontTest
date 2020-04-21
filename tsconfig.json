@@ -17,9 +17,11 @@
       "@components*": ["src/components*"],
       "@config*": ["config*"],
       "@constants*": ["src/constants*"],
+      "@interface-components": ["src/components/shared/interface"],
       "@interface-components*": ["src/components/shared/interface*"],
       "@lib*": ["src/lib*"],
       "@middlewares*": ["src/middlewares*"],
+      "@reducers": ["src/reducers"],
       "@reducers*": ["src/reducers*"],
       "@src*": ["src*"]
     },

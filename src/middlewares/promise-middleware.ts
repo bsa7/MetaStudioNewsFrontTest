@@ -7,9 +7,9 @@ export const promiseMiddleware = () => (next: any) => (action: any) => {
   if (!promise && type) {
     return Promise.all([next(action)])
   }
-  const [REQUEST, SUCCESS, ERROR] = types
+  const [START, SUCCESS, ERROR] = types
 
-  next({ type: REQUEST, ...rest })
+  next({ type: START, ...rest })
 
   return promise.then(
     (result: any) => next({ ...rest, result, type: SUCCESS }),

@@ -1,18 +1,18 @@
 import React from 'react'
-import { ServerStyleSheet } from 'styled-components'
 import { Helmet, HelmetData } from 'react-helmet'
 import { IApplicationState } from '@reducers/index'
-import { compressApplicationState } from '@lib/server-helper'
+import { getClientScriptFileNames, compressApplicationState } from '@lib/server-helper'
+import { ChunkFileNameData } from '@lib/common-defs'
 
 type IHtmlProps = {
+  chunkFileNameData: ChunkFileNameData
   helmet?: HelmetData
   initialState: IApplicationState
 }
 
 export const HtmlTemplate: React.FunctionComponent<IHtmlProps> = (props) => {
-  const { children, helmet, initialState } = props
-  const sheet = new ServerStyleSheet()
-  const styles = sheet.getStyleTags()
+  const { children, chunkFileNameData, helmet, initialState } = props
+  const clientScriptFileNames = getClientScriptFileNames(chunkFileNameData)
 
   return (
     <html lang='en'>
@@ -23,15 +23,18 @@ export const HtmlTemplate: React.FunctionComponent<IHtmlProps> = (props) => {
       <body>
         <Helmet>
           <title>{helmet.title.toString() || 'Metastudio News test'}</title>
-          ${styles}
         </Helmet>
-        <div className="aaabbb" id='app'>{children}</div>
+        <div id='app'>{children}</div>
         <script
           dangerouslySetInnerHTML={{
             __html: `window.__PRELOADED_STATE__ = '${compressApplicationState(initialState)}'`,
           }}
         />
-        <script src='./client.js'></script>
+        {
+          clientScriptFileNames.map((scriptFileName: string, index: number) => (
+            <script key={index} src={`./${scriptFileName}`}></script>
+          ))
+        }
       </body>
     </html>
   )

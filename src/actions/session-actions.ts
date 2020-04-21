@@ -1,11 +1,10 @@
 import { actionNames } from "@constants/action-types"
-import { RestMethod } from "@constants/enums"
-import { createAsyncAction } from "@lib/flux-helper"
+import { RestMethod, ThemeName } from "@constants/enums"
+import { createAsyncAction, createSyncAction } from "@lib/flux-helper"
 import { IFetchParams } from "@lib/common-defs"
 
 
 interface IFetchUserParams extends IFetchParams {}
-
 export const fetchUser = (fetchParams: IFetchUserParams) => {
   const { userAuthToken } = fetchParams
   return createAsyncAction<IFetchUserParams>({
@@ -19,7 +18,6 @@ interface ILoginUserParams {
   email: string
   password: string
 }
-
 export const loginUser = (loginUserParams: ILoginUserParams) => {
   const { email, password } = loginUserParams
   return createAsyncAction<ILoginUserParams>({
@@ -40,5 +38,16 @@ export const registerUser = (registerUserParams: IRegisterUserParams) => {
     method: RestMethod.post,
     params: { email, password, passwordConfirmation },
     path: '/users/new',
+  })
+}
+
+export interface IChangeThemeParams {
+  themeName: keyof typeof ThemeName
+}
+export const changeTheme = (changeThemeParams: IChangeThemeParams) => {
+  const { themeName } = changeThemeParams
+  return createSyncAction<IChangeThemeParams>({
+    actionName: actionNames.CHANGE_THEME,
+    result: { themeName },
   })
 }

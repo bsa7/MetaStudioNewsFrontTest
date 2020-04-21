@@ -98,3 +98,11 @@ export interface IFetchParams {
 }
 
 export type FormEditHandler = () => void
+
+export type ChunkFileNameData = {
+  [configurationName: string]: Array<string>
+}
+
+export type WebpackStats = {
+  cssStylesheetFileNames: Array<string>
+}

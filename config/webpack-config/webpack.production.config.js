@@ -1,4 +1,4 @@
-const baseConfig = require('./webpack.base.config')
+const baseConfig = require('./webpack.base.config')('production')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
   mode: 'production',
   module: baseConfig.module,
   output: {
-    filename: '[name].js',
+    filename: '[name]-[contenthash].js',
     path: baseConfig.resolvePath('../../dist'),
   },
   plugins: [

@@ -4,6 +4,7 @@ export const actionNamesArray = [
   'FETCH_USER',
   'LOGIN_USER',
   'REGISTER_USER',
+  'CHANGE_THEME',
 ]
 
 export const actionNames = hashActionNames(actionNamesArray)

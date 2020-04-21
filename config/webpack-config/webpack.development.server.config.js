@@ -1,5 +1,5 @@
 const nodeExternals = require('webpack-node-externals')
-const baseConfig = require('./webpack.base.config')
+const baseConfig = require('./webpack.base.config')('development')
 
 module.exports = {
   devtool: 'source-map',

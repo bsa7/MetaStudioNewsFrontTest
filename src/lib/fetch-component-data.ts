@@ -2,7 +2,7 @@ import { router } from '@components/router'
 import { Dispatch } from 'redux'
 import * as ApplicationPages from '@components/index'
 import { ApplicationPage, ApplicationPageName, ValuesOf } from '@lib/common-defs'
-import { Layout } from '@components/layout'
+import { Layout } from '@components/layout/layout'
 
 export const fetchComponentData = (dispatch: Dispatch): Promise<void[]> => {
   const pageName = router.currentPathSetting.componentName

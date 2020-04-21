@@ -5,10 +5,14 @@ import { Layout } from '@components/layout'
 import { router } from '@components/router'
 import { LocationInfo, FormEditHandler } from '@lib/common-defs'
 import { Column, Root, Row } from './styled'
-import { TextInput } from '@interface-components/text-input'
+import { ThemeName } from '@constants/enums'
+import { TextInput } from '@interface-components'
+import { ThemeMapper } from '@lib/theme-helper'
 
 export interface IAuthProps {
+  changeTheme?: (themeName: keyof typeof ThemeName) => void
   locationInfo?: LocationInfo
+  themeName?: keyof typeof ThemeName
 }
 
 export interface IAuthState {
@@ -35,53 +39,66 @@ export class Auth extends React.Component<IAuthProps, IAuthState> {
       ? 'Not registered yet? Signup!'
       : 'Already registered? Login!'
     const { email, password, passwordConfirmation } = this.state
+    const { changeTheme, themeName } = this.props
+    const themeMapper = new ThemeMapper()
+    const targetTheme = themeMapper.nextThemeName(themeName)
+    const changeThemeButtonText = `Change theme to ${targetTheme}`
 
     return (
       <Layout>
         <Root>
           <Column>
-            <Row>
-              <h1>{titleText}</h1>
-            </Row>
-            <Row>
-              <TextInput
-                defaultValue={email}
-                label='Email'
-                name='email'
-                placeholder='Enter email here'
-                onChange={this.editFormField('email')}
-              />
-            </Row>
-            <Row>
-              <TextInput
-                defaultValue={password}
-                label='Password'
-                name='password'
-                placeholder='Enter password here'
-                type='password'
-                onChange={this.editFormField('password')}
-              />
-            </Row>
-            {
-              currentRouteKey === links.SignupPage && (
-                <Row>
-                  <TextInput
-                    defaultValue={passwordConfirmation}
-                    label='Password confirmation'
-                    name='passwordConfirmation'
-                    placeholder='Enter password confirmation here'
-                    type='password'
-                    onChange={this.editFormField('passwordConfirmation')}
-                  />
-                </Row>
-              )
-            }
+            <form>
+              <Row>
+                <h1>{titleText}</h1>
+              </Row>
+              <Row>
+                <TextInput
+                  defaultValue={email}
+                  label='Email'
+                  name='email'
+                  placeholder='Enter email here'
+                  onChange={this.editFormField('email')}
+                />
+              </Row>
+              <Row>
+                <TextInput
+                  defaultValue={password}
+                  label='Password'
+                  name='password'
+                  placeholder='Enter password here'
+                  type='password'
+                  onChange={this.editFormField('password')}
+                />
+              </Row>
+              {
+                currentRouteKey === links.SignupPage && (
+                  <Row>
+                    <TextInput
+                      defaultValue={passwordConfirmation}
+                      label='Password confirmation'
+                      name='passwordConfirmation'
+                      placeholder='Enter password confirmation here'
+                      type='password'
+                      onChange={this.editFormField('passwordConfirmation')}
+                    />
+                  </Row>
+                )
+              }
+            </form>
             <Row>
               <Link
                 to={seoLink(currentRouteKey === links.LoginPage ? links.SignupPage : links.LoginPage)}
               >
                 {linkText}
               </Link>
+            </Row>
+            <Row>
+              <button
+                onClick={() => changeTheme(targetTheme)}
+              >
+                {changeThemeButtonText}
+              </button>
             </Row>
           </Column>
         </Root>

@@ -5,15 +5,12 @@ import { ConnectedRouter } from 'connected-react-router'
 import { Router } from '@components/router'
 import { Provider } from 'react-redux'
 import { configureStore } from '@lib/configure-store'
-import { currentLocation } from '@lib/isomorphic-helper'
-import { IApplicationState } from '@reducers/index'
+import { initialApplicationState, IApplicationState } from '@reducers'
+import { ThemeMapper } from '@lib/theme-helper'
 
 const history = createBrowserHistory()
-const initialState: IApplicationState = {
-  session: {
-    locationInfo: currentLocation.locationInfo()
-  }
-}
+const initialState: IApplicationState = initialApplicationState
+new ThemeMapper(initialState.session.webpackStats.cssStylesheetFileNames)
 const store = configureStore(initialState, history)
 const rootElement = document.getElementById('app')
 

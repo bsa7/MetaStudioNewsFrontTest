@@ -1,6 +1,7 @@
-const path = require('path');
+const path = require('path')
 const resolvePath = (pathname) => path.resolve(__dirname, pathname)
-const webpack = require('webpack');
+const webpack = require('webpack')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const alias = {
   "@actions": resolvePath('../../src/actions'),
@@ -14,22 +15,40 @@ const alias = {
   "@src": resolvePath('../../src'),
 }
 
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        loader: 'awesome-typescript-loader',
-      },
+module.exports = (env = 'development') => {
+  return {
+    module: {
+      rules: [
+        {
+          test: /\.tsx?$/,
+          loader: 'awesome-typescript-loader',
+        },
+        {
+          test: /\.(sa|sc|c)ss$/,
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                hmr: env === 'development',
+              },
+            },
+            'css-loader',
+            'postcss-loader',
+            'sass-loader',
+          ],
+        },
+      ],
+    },
+    plugins: [
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.NoEmitOnErrorsPlugin(),
     ],
-  },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-  ],
-  resolve: {
-    alias,
-    extensions: ['.ts', '.tsx', '.js', '.json'],
-  },
-  resolvePath,
+    resolve: {
+      alias,
+      extensions: ['.ts', '.tsx', '.js', '.json'],
+    },
+    stats: 'verbose',
+    resolvePath,
+    MiniCssExtractPlugin,
+  }
 }

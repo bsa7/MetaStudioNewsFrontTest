@@ -3,7 +3,10 @@ import { connect } from 'react-redux'
 import { IAuthProps, IAuthState, Auth } from './auth.view'
 import { IApplicationState } from '@reducers/index'
 import { getDataFromState } from '@lib/flux-helper'
-import { LocationInfo } from '@lib/common-defs'
+import { Dispatch } from 'redux'
+import * as SessionActions from '@actions/session-actions'
+import { ThemeName } from '@constants/enums'
+import { IChangeThemeParams } from '@actions/session-actions'
 
 class AuthPage extends React.Component<IAuthProps, IAuthState> {
   state: IAuthState = {}
@@ -15,9 +18,18 @@ class AuthPage extends React.Component<IAuthProps, IAuthState> {
   }
 }
 
-const mapStateToProps = (state: IApplicationState, props: IAuthProps): IAuthProps => {
-  const locationInfo = getDataFromState<LocationInfo>(state, 'session.locationInfo')
-  return { locationInfo }
+const mapStateToProps = (state: IApplicationState): IAuthProps => {
+  const { locationInfo, themeName } = getDataFromState<IAuthProps>(state, 'session')
+  return { locationInfo, themeName }
 }
 
-export default connect(mapStateToProps)(AuthPage)
+const mapDispatchToProps = (dispatch: Dispatch): IAuthProps => {
+  const changeTheme = (themeName: keyof typeof ThemeName): void => {
+    const changeThemeParams: IChangeThemeParams = { themeName }
+    dispatch(SessionActions.changeTheme(changeThemeParams))
+  }
+
+  return { changeTheme }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthPage)

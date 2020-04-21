@@ -29,7 +29,7 @@ class CurrentLocation {
     } else {
       locationInfoBrief = (global as AppGlobal).locationInfoBrief
     }
-    const locationInfo: LocationInfo = {
+    const locationInfo: LocationInfo = locationInfoBrief && {
       ...locationInfoBrief,
       hashParams: searchToParams({ search: decodeURIComponent(locationInfoBrief.hash) }), // Do not use hash if it possible!
       pathname: decodeURIComponent(locationInfoBrief.pathname),

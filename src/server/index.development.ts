@@ -18,12 +18,12 @@ const app = express()
 const PORT = hostSettings.port
 
 if (devMode) {
-  app.use(webpackDevMiddleware(compiler, {
+  const options: webpackDevMiddleware.Options = {
     index: false,
     publicPath: clientConfig.output.publicPath,
     serverSideRender: true,
-  }))
-
+  }
+  app.use(webpackDevMiddleware(compiler, options))
   app.use(webpackHotMiddleware(clientCompiler))
   app.use(webpackHotServerMiddleware(compiler as any))
 }

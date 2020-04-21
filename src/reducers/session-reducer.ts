@@ -1,16 +1,25 @@
 import { actionTypes } from '@constants/action-types'
 import { User } from '@lib/models'
-import { Action } from 'redux'
-import { LocationInfo } from '@lib/common-defs'
+import { Action as ReduxAction } from 'redux'
+import { LocationInfo, WebpackStats } from '@lib/common-defs'
 import { currentLocation } from '@lib/isomorphic-helper'
+import { ThemeName } from '@constants/enums'
 
 export type SessionReducerStore = {
   locationInfo: LocationInfo
+  themeName?: keyof typeof ThemeName
+  webpackStats: WebpackStats
   user?: User
 }
 
-const initialState: SessionReducerStore = {
-  locationInfo: undefined,
+type Action = ReduxAction & {
+  result?: any
+}
+
+export const initialState: SessionReducerStore = {
+  locationInfo: currentLocation.locationInfo(),
+  themeName: ThemeName.Unstyled,
+  webpackStats: {} as WebpackStats,
   user: undefined,
 }
 
@@ -22,6 +31,13 @@ export const sessionReducer = (state = initialState, action: Action) => {
       newState = {
         ...newState,
         locationInfo: currentLocation.locationInfo(),
+      }
+      break
+    }
+    case actionTypes.CHANGE_THEME__START: {
+      newState = {
+        ...newState,
+        ...action.result,
       }
       break
     }
