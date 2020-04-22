@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { TextInput as UnstyledTextInput, ITextInputProps } from '@interface-components/unstyled/text-input'
 import { TextInput as BootstrapTextInput } from '@interface-components/bootstrap-theme/text-input'
+import { Button as UnstyledButton, IButtonProps } from '@interface-components/unstyled/button'
+import { Button as BootstrapButton } from '@interface-components/bootstrap-theme/button'
 import { IApplicationState } from '@reducers'
 import { getDataFromState } from '@lib/flux-helper'
 import { ThemeName } from '@lib/common-defs'
@@ -11,6 +13,8 @@ export type InterfaceComponent = keyof typeof InterfaceFactory.components
 
 export class InterfaceFactory {
   static components = {
+    UnstyledButton,
+    BootstrapButton,
     UnstyledTextInput,
     BootstrapTextInput,
   }
@@ -52,8 +56,10 @@ const mapStateToProps = (state: IApplicationState): IThemeStateProps => {
 
 const ThemeComponent = connect(mapStateToProps)(ThemeComponentWrapper)
 
+const Button = (props: IButtonProps) => <ThemeComponent componentName='Button' componentProps={props} />
 const TextInput = (props: ITextInputProps) => <ThemeComponent componentName='TextInput' componentProps={props} />
 
 export {
+  Button,
   TextInput,
 }

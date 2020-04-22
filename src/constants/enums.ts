@@ -20,3 +20,9 @@ export enum ThemeNames {
   Bootstrap = 'Bootstrap',
   Unstyled = 'Unstyled',
 }
+
+export enum ButtonType {
+  default = 'default',
+  primary = 'primary',
+  secondary = 'secondary',
+}

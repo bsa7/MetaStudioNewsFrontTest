@@ -107,3 +107,5 @@ export type WebpackStats = {
 }
 
 export type ThemeName = keyof typeof ThemeNames
+
+export type FormButtonClickHandler = () => void
