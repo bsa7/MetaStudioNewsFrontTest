@@ -18,9 +18,13 @@ module.exports = {
       'webpack-hot-middleware/client',
     ],
     cssUnstyled: [
+      baseConfig.resolvePath('../../src/assets/scss/unstyled.scss'),
+      'webpack-hot-middleware/client',
+    ],
+    cssApplication: [
       baseConfig.resolvePath('../../src/assets/scss/application.scss'),
       'webpack-hot-middleware/client',
-    ]
+    ],
   },
   mode: 'development',
   module: baseConfig.module,

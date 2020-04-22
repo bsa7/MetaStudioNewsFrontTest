@@ -16,6 +16,7 @@ import { Store } from 'redux'
 import { fetchComponentData } from '@lib/fetch-component-data'
 import { initialApplicationState } from '@reducers/index'
 import { ThemeMapper } from '@lib/theme-helper'
+import { cookie } from '@lib/cookie-helper'
 
 const fetchData = (store: Store): Promise<IApplicationState> => {
   return new Promise((resolve) => fetchComponentData(store.dispatch).then(() => {
@@ -27,6 +28,22 @@ const fetchData = (store: Store): Promise<IApplicationState> => {
 const server = (incomingRequest: any, serverResponse: any, clientStats?: Stats) => {
   const locationInfoBrief: LocationInfoBrief = extractLocationInfo(incomingRequest);
   (global as AppGlobal).locationInfoBrief = locationInfoBrief
+
+  Object.keys(incomingRequest.cookies).forEach((key) => {
+    incomingRequest.session[key] = incomingRequest.cookies[key]
+  })
+  cookie.setServerAdapter({
+    get: (name: string) => {
+      const value = incomingRequest.session[name]
+      return value as string
+    },
+    remove: (name: string) => incomingRequest.session[name] = '',
+    save: (name: string, value: string, options) => {
+      serverResponse.cookie(name, value, options)
+      incomingRequest.session[name] = value
+    },
+  })
+
   const helmet = Helmet.renderStatic()
   const chunkFileNameData = getChunkFileNames(serverResponse)
   const clientCssFileNames = getClientCssFileNames(chunkFileNameData)

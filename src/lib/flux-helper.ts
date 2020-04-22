@@ -1,5 +1,5 @@
 import { ApiResponse, ValuesOf } from '@lib/common-defs'
-import { RestMethod } from '@constants/enums'
+import { RestMethods } from '@constants/enums'
 import { fetchJsonFromAPI } from '@lib/api-helper'
 import { IApplicationState } from '@reducers/index'
 import { actionNamesArray } from '@constants/action-types'
@@ -16,7 +16,7 @@ type SyncActionResult<R> = {
 
 interface IAsyncActionParams<T> {
   actionName: string
-  method?: RestMethod
+  method?: RestMethods
   params?: T
   path: string
   userAuthToken?: string
@@ -28,7 +28,7 @@ interface ISyncActionParams<T> {
 
 
 export const createAsyncAction = <T>(actionParams: IAsyncActionParams<T>): AsyncActionResult => {
-  const { actionName, method = RestMethod.get, path, params = {} as T, userAuthToken } = actionParams
+  const { actionName, method = RestMethods.get, path, params = {} as T, userAuthToken } = actionParams
   return {
     promise: fetchJsonFromAPI({
       method,

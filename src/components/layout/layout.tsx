@@ -1,36 +1,31 @@
 import * as React from 'react'
+import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
-import { ThemeName } from '@constants/enums'
 import { IApplicationState } from '@reducers'
 import { getDataFromState } from '@lib/flux-helper'
 import { ThemeMapper } from '@lib/theme-helper'
-import { WebpackStats } from '@lib/common-defs'
+import { ThemeName, WebpackStats } from '@lib/common-defs'
 
 interface ILayoutProps {
-  themeName?: keyof typeof ThemeName
+  themeName?: ThemeName
   webpackStats: WebpackStats
 }
 class LayoutContainer extends React.Component<ILayoutProps> {
-  componentDidMount() {
-    const { themeName } = this.props
-    const themeMapper = new ThemeMapper()
-    themeMapper.set(themeName)
-  }
-
-  componentDidUpdate(prevProps: ILayoutProps) {
-    const { themeName } = this.props
-    const themeMapper = new ThemeMapper()
-    if (themeName !== prevProps.themeName) {
-      themeMapper.set(themeName)
-    }
-    if (themeName && !prevProps.themeName) {
-      themeMapper.set(themeName)
-    }
-  }
-
   render() {
+    const themeMapper = new ThemeMapper()
+    const currentThemeStylesheetFileName: string = themeMapper.currentThemeStylesheetFileName
+    const otherCssFileNames = themeMapper.otherCssFileNames
+
     return (
       <React.Fragment>
+        <Helmet>
+          <link rel='stylesheet' href={`./${currentThemeStylesheetFileName}`} type='text/css' />
+          {
+            otherCssFileNames.map((cssFileName, index) => (
+              <link key={index} rel='stylesheet' href={`./${cssFileName}`} type='text/css' />
+            ))
+          }
+        </Helmet>
         <div>TODO: Application Header</div>
         {this.props.children}
         <div>TODO: Application Footer</div>

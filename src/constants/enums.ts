@@ -9,14 +9,14 @@ export const MODES = {
 
 export type ApplicationLinks = EnumMap<typeof pathSettings>
 
-export enum RestMethod {
+export enum RestMethods {
   delete = 'delete',
   get = 'get',
   post = 'post',
   put = 'put',
 }
 
-export enum ThemeName {
+export enum ThemeNames {
   Bootstrap = 'Bootstrap',
   Unstyled = 'Unstyled',
 }

@@ -5,7 +5,7 @@ import { cookie } from '@lib/cookie-helper'
 import { currentLocation } from '@lib/isomorphic-helper'
 import { RequestOptions } from 'https'
 import { constants } from '@constants/string-constants'
-import { RestMethod } from '@constants/enums'
+import { RestMethods } from '@constants/enums'
 import { ApiResponse } from '@lib/common-defs'
 
 export const camelizeAPIResponse = (response: ApiResponse) => {
@@ -41,7 +41,7 @@ interface IFetchParams {
   decamelize?: boolean
   path: string
   params?: any
-  method?: RestMethod
+  method?: RestMethods
   userAuthToken?: string
 }
 
@@ -51,7 +51,7 @@ export const fetchJsonFromAPI = (fetchParams: IFetchParams) => {
     decamelize = true,
     path,
     params = {},
-    method = RestMethod,
+    method = RestMethods,
     userAuthToken,
   } = fetchParams
   const locationInfo = currentLocation.locationInfo()
@@ -80,7 +80,7 @@ export const fetchJsonFromAPI = (fetchParams: IFetchParams) => {
 
   let apiUrl = `${apiSettings.prefix(currentLocation.locationInfo().hostname)}${path}`
   if (!absolutePath) {
-    if ([RestMethod.post, RestMethod.put].includes(method as RestMethod)) {
+    if ([RestMethods.post, RestMethods.put].includes(method as RestMethods)) {
       options.body = JSON.stringify(paramsSnakeCased)
       options.headers['Content-Type'] = 'application/json; charset=utf-8'
     } else {

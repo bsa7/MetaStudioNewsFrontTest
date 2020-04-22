@@ -46,7 +46,7 @@ class Cookie {
 
     if (isClientSide()) {
       const documentCookies = searchToParams({ search: (document.cookie.split(/;\s?/) || []).join('&') })
-      result = documentCookies[name].toString() || ''
+      result = documentCookies[name] as string || ''
     } else if (this.serverAdapter) {
       result = this.serverAdapter.get(name)
     }

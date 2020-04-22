@@ -1,9 +1,11 @@
 import express from 'express'
+import cookieParser from 'cookie-parser'
+import session from 'express-session'
 import webpack from 'webpack'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import webpackHotServerMiddleware from 'webpack-hot-server-middleware'
-import { hostSettings } from '../../config/front-settings'
+import { applicationSecret, hostSettings } from '../../config/front-settings'
 import webpackConfig from '../../webpack.config.js'
 import { MODES } from '../constants/enums'
 
@@ -15,6 +17,14 @@ const clientConfig = (envConfig as any[]).find((config) => config.name === 'clie
 const compiler = webpack(envConfig as any[])
 const clientCompiler = compiler.compilers.find((compiler) => compiler.name === 'client')
 const app = express()
+app.set('trust proxy', 1)
+app.use(session({
+  cookie: { secure: true },
+  resave: false,
+  saveUninitialized: true,
+  secret: applicationSecret,
+}))
+app.use(cookieParser())
 const PORT = hostSettings.port
 
 if (devMode) {

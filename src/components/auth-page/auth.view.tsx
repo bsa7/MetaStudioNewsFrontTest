@@ -3,16 +3,15 @@ import { Link } from 'react-router-dom'
 import { seoLink } from '@lib/router-helper'
 import { Layout } from '@components/layout'
 import { router } from '@components/router'
-import { LocationInfo, FormEditHandler } from '@lib/common-defs'
+import { FormEditHandler, LocationInfo, ThemeName } from '@lib/common-defs'
 import { Column, Root, Row } from './styled'
-import { ThemeName } from '@constants/enums'
 import { TextInput } from '@interface-components'
 import { ThemeMapper } from '@lib/theme-helper'
 
 export interface IAuthProps {
-  changeTheme?: (themeName: keyof typeof ThemeName) => void
+  changeTheme?: (themeName: ThemeName) => void
   locationInfo?: LocationInfo
-  themeName?: keyof typeof ThemeName
+  themeName?: ThemeName
 }
 
 export interface IAuthState {
@@ -39,9 +38,9 @@ export class Auth extends React.Component<IAuthProps, IAuthState> {
       ? 'Not registered yet? Signup!'
       : 'Already registered? Login!'
     const { email, password, passwordConfirmation } = this.state
-    const { changeTheme, themeName } = this.props
+    const { changeTheme } = this.props
     const themeMapper = new ThemeMapper()
-    const targetTheme = themeMapper.nextThemeName(themeName)
+    const targetTheme = themeMapper.nextThemeName
     const changeThemeButtonText = `Change theme to ${targetTheme}`
 
     return (

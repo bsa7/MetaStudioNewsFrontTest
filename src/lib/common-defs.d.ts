@@ -1,8 +1,7 @@
-import React from 'react'
 import { Dispatch } from 'redux'
-import { ConnectedComponent } from 'react-redux'
 import { Stats } from 'webpack'
 import * as ApplicationPages from '@components/index'
+import { ThemeNames } from '@constants/enums'
 
 export type AnyMap = {
   [key: string]: any
@@ -106,3 +105,5 @@ export type ChunkFileNameData = {
 export type WebpackStats = {
   cssStylesheetFileNames: Array<string>
 }
+
+export type ThemeName = keyof typeof ThemeNames

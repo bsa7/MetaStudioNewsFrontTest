@@ -4,7 +4,8 @@ import { TextInput as UnstyledTextInput, ITextInputProps } from '@interface-comp
 import { TextInput as BootstrapTextInput } from '@interface-components/bootstrap-theme/text-input'
 import { IApplicationState } from '@reducers'
 import { getDataFromState } from '@lib/flux-helper'
-import { ThemeName } from '@constants/enums'
+import { ThemeName } from '@lib/common-defs'
+import { ThemeMapper } from '@lib/theme-helper'
 
 export type InterfaceComponent = keyof typeof InterfaceFactory.components
 
@@ -30,7 +31,9 @@ interface IThemeProps extends IThemeStateProps {
 
 class ThemeComponentWrapper extends React.PureComponent<IThemeProps> {
   render() {
-    const { componentName, componentProps, themeName } = this.props
+    const { componentName, componentProps } = this.props
+    const themeMapper = new ThemeMapper()
+    const themeName = this.props.themeName || themeMapper.currentThemeName
     const interfaceComponentName = `${themeName as ThemeName}${componentName}` as InterfaceComponent
     const Component = interfaceElementFactory.create(interfaceComponentName)
 
@@ -43,7 +46,7 @@ class ThemeComponentWrapper extends React.PureComponent<IThemeProps> {
 }
 
 const mapStateToProps = (state: IApplicationState): IThemeStateProps => {
-  const themeName: keyof typeof ThemeName = getDataFromState(state, 'session.themeName')
+  const themeName: ThemeName = getDataFromState(state, 'session.themeName')
   return { themeName }
 }
 

@@ -1,13 +1,13 @@
 import { actionTypes } from '@constants/action-types'
 import { User } from '@lib/models'
 import { Action as ReduxAction } from 'redux'
-import { LocationInfo, WebpackStats } from '@lib/common-defs'
+import { LocationInfo, WebpackStats, ThemeName } from '@lib/common-defs'
 import { currentLocation } from '@lib/isomorphic-helper'
-import { ThemeName } from '@constants/enums'
+import { ThemeNames } from '@constants/enums'
 
 export type SessionReducerStore = {
   locationInfo: LocationInfo
-  themeName?: keyof typeof ThemeName
+  themeName?: ThemeName
   webpackStats: WebpackStats
   user?: User
 }
@@ -18,7 +18,7 @@ type Action = ReduxAction & {
 
 export const initialState: SessionReducerStore = {
   locationInfo: currentLocation.locationInfo(),
-  themeName: ThemeName.Unstyled,
+  themeName: undefined,
   webpackStats: {} as WebpackStats,
   user: undefined,
 }

@@ -19,6 +19,20 @@ export const HtmlTemplate: React.FunctionComponent<IHtmlProps> = (props) => {
       <head>
         <meta charSet='UTF-8' />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <div
+          id="loadOverlay"
+          style={{
+            backgroundColor: '#333',
+            height: '100%',
+            left: '0px',
+            opacity: 1,
+            pointerEvents: 'none',
+            position: 'absolute',
+            top: '0px',
+            width: '100%',
+            zIndex: 2000,
+          }}
+        />
       </head>
       <body>
         <Helmet>

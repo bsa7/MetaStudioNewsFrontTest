@@ -15,9 +15,11 @@
   "repository": "git@github.com:r72cccp/MetaStudioNewsFrontTest.git",
   "license": "ISC",
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.2",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/express": "^4.17.6",
+    "@types/express-session": "^1.17.0",
     "@types/isomorphic-fetch": "0.0.35",
     "@types/jest": "^25.2.1",
     "@types/node": "^13.11.0",
@@ -64,7 +66,9 @@
   "dependencies": {
     "bootstrap": "^4.4.1",
     "connected-react-router": "^6.8.0",
+    "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "fs": "0.0.1-security",
     "isomorphic-fetch": "^2.2.1",
     "lzutf8": "^0.5.5",

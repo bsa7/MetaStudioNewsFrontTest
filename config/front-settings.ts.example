@@ -32,3 +32,7 @@ export const availableLocales = (currentDomain?: string): Array<Locale> => {
     { EN: "en" },
   ]
 }
+
+export const defaultThemeName = 'Bootstrap'
+
+export const applicationSecret = 'vliwerubvgiwerutbgowierutgwoeriutghweroigweboi'

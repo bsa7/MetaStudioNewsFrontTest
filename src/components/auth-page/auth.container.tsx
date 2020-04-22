@@ -5,8 +5,8 @@ import { IApplicationState } from '@reducers/index'
 import { getDataFromState } from '@lib/flux-helper'
 import { Dispatch } from 'redux'
 import * as SessionActions from '@actions/session-actions'
-import { ThemeName } from '@constants/enums'
 import { IChangeThemeParams } from '@actions/session-actions'
+import { ThemeName } from '@lib/common-defs'
 
 class AuthPage extends React.Component<IAuthProps, IAuthState> {
   state: IAuthState = {}
@@ -24,7 +24,7 @@ const mapStateToProps = (state: IApplicationState): IAuthProps => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch): IAuthProps => {
-  const changeTheme = (themeName: keyof typeof ThemeName): void => {
+  const changeTheme = (themeName: ThemeName): void => {
     const changeThemeParams: IChangeThemeParams = { themeName }
     dispatch(SessionActions.changeTheme(changeThemeParams))
   }

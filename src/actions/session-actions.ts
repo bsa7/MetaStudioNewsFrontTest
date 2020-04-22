@@ -1,7 +1,9 @@
 import { actionNames } from "@constants/action-types"
-import { RestMethod, ThemeName } from "@constants/enums"
+import { RestMethods } from "@constants/enums"
 import { createAsyncAction, createSyncAction } from "@lib/flux-helper"
-import { IFetchParams } from "@lib/common-defs"
+import { IFetchParams, ThemeName } from "@lib/common-defs"
+import { cookie } from "@lib/cookie-helper"
+import { constants } from "@constants/string-constants"
 
 
 interface IFetchUserParams extends IFetchParams {}
@@ -22,7 +24,7 @@ export const loginUser = (loginUserParams: ILoginUserParams) => {
   const { email, password } = loginUserParams
   return createAsyncAction<ILoginUserParams>({
     actionName: actionNames.LOGIN_USER,
-    method: RestMethod.post,
+    method: RestMethods.post,
     params: { email, password },
     path: '/authenticate',
   })
@@ -35,17 +37,19 @@ export const registerUser = (registerUserParams: IRegisterUserParams) => {
   const { email, password, passwordConfirmation } = registerUserParams
   return createAsyncAction<IRegisterUserParams>({
     actionName: actionNames.REGISTER_USER,
-    method: RestMethod.post,
+    method: RestMethods.post,
     params: { email, password, passwordConfirmation },
     path: '/users/new',
   })
 }
 
 export interface IChangeThemeParams {
-  themeName: keyof typeof ThemeName
+  themeName: ThemeName
 }
 export const changeTheme = (changeThemeParams: IChangeThemeParams) => {
   const { themeName } = changeThemeParams
+  cookie.set(constants.THEME_NAME, themeName as string)
+
   return createSyncAction<IChangeThemeParams>({
     actionName: actionNames.CHANGE_THEME,
     result: { themeName },
