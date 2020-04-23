@@ -1,7 +1,10 @@
 import express from 'express'
+import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
 import webpack from 'webpack'
+import https from 'https'
+import * as fs from 'fs'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import webpackHotServerMiddleware from 'webpack-hot-server-middleware'
@@ -17,6 +20,7 @@ const clientConfig = (envConfig as any[]).find((config) => config.name === 'clie
 const compiler = webpack(envConfig as any[])
 const clientCompiler = compiler.compilers.find((compiler) => compiler.name === 'client')
 const app = express()
+app.use(cors())
 app.set('trust proxy', 1)
 app.use(session({
   cookie: { secure: true },
@@ -25,7 +29,6 @@ app.use(session({
   secret: applicationSecret,
 }))
 app.use(cookieParser())
-const PORT = hostSettings.port
 
 if (devMode) {
   const options: webpackDevMiddleware.Options = {
@@ -37,4 +40,12 @@ if (devMode) {
   app.use(webpackHotMiddleware(clientCompiler))
   app.use(webpackHotServerMiddleware(compiler as any))
 }
-app.listen(PORT, () => console.log(`Webpack listening on port ${PORT}`))
+if (/https/.test(hostSettings.protocol)) {
+  const sslConfig = {
+    key: fs.readFileSync(hostSettings.https.keyFileName),
+    cert: fs.readFileSync(hostSettings.https.certFileName),
+  }
+  https.createServer(sslConfig, app).listen(hostSettings.https.port)
+} else {
+  app.listen(hostSettings.http.port, () => console.log(`Webpack listening on port ${hostSettings.http.port}`))
+}

@@ -4,6 +4,8 @@ import { TextInput as UnstyledTextInput, ITextInputProps } from '@interface-comp
 import { TextInput as BootstrapTextInput } from '@interface-components/bootstrap-theme/text-input'
 import { Button as UnstyledButton, IButtonProps } from '@interface-components/unstyled/button'
 import { Button as BootstrapButton } from '@interface-components/bootstrap-theme/button'
+import { AlertArea as UnstyledAlertArea, IAlertAreaProps } from '@interface-components/unstyled/alert-area'
+import { AlertArea as BootstrapAlertArea } from '@interface-components/bootstrap-theme/alert-area'
 import { IApplicationState } from '@reducers'
 import { getDataFromState } from '@lib/flux-helper'
 import { ThemeName } from '@lib/common-defs'
@@ -17,6 +19,8 @@ export class InterfaceFactory {
     BootstrapButton,
     UnstyledTextInput,
     BootstrapTextInput,
+    UnstyledAlertArea,
+    BootstrapAlertArea,
   }
 
   public create = (type: InterfaceComponent) => InterfaceFactory.components[type]
@@ -56,10 +60,12 @@ const mapStateToProps = (state: IApplicationState): IThemeStateProps => {
 
 const ThemeComponent = connect(mapStateToProps)(ThemeComponentWrapper)
 
+const AlertArea = (props: IAlertAreaProps) => <ThemeComponent componentName='AlertArea' componentProps={props} />
 const Button = (props: IButtonProps) => <ThemeComponent componentName='Button' componentProps={props} />
 const TextInput = (props: ITextInputProps) => <ThemeComponent componentName='TextInput' componentProps={props} />
 
 export {
+  AlertArea,
   Button,
   TextInput,
 }

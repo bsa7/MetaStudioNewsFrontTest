@@ -6,6 +6,7 @@ import { actionNamesArray } from '@constants/action-types'
 
 type AsyncActionResult = {
   promise: Promise<ApiResponse>
+  type: string
   types: [string, string, string]
 }
 
@@ -36,6 +37,7 @@ export const createAsyncAction = <T>(actionParams: IAsyncActionParams<T>): Async
       path,
       userAuthToken,
     }),
+    type: '',
     types: [
       `${actionName}__START`,
       `${actionName}__SUCCESS`,

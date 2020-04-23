@@ -28,8 +28,14 @@ const mapDispatchToProps = (dispatch: Dispatch): IAuthProps => {
     const changeThemeParams: IChangeThemeParams = { themeName }
     dispatch(SessionActions.changeTheme(changeThemeParams))
   }
+  const loginUser = (email: string, password: string): void => {
+    dispatch(SessionActions.loginUser({ email, password }))
+  }
+  const registerUser = (email: string, password: string, passwordConfirmation: string): void => {
+    dispatch(SessionActions.registerUser({ email, password, passwordConfirmation }))
+  }
 
-  return { changeTheme }
+  return { changeTheme, loginUser, registerUser }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthPage)

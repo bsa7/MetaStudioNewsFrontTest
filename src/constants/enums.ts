@@ -26,3 +26,9 @@ export enum ButtonType {
   primary = 'primary',
   secondary = 'secondary',
 }
+
+export enum AlertAreaType {
+  error = 'error',
+  success = 'success',
+  warning = 'warning',
+}

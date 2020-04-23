@@ -3,3 +3,5 @@ node_modules
 public
 tmp
 config/front-settings.ts
+config/ssl/*.key
+config/ssl/*.pem

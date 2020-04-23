@@ -7,7 +7,14 @@ export const hostSettings = {
   environment: {
     name: 'production', // pass 'development' if you want turn on redux tools on production server
   },
-  port: 3001,
+  https: {
+    port: 8223,
+    certFileName: path.resolve(__dirname, './ssl/metastudio.crt'),
+    keyFileName: path.resolve(__dirname, './ssl/metastudio.key'),
+  },
+  http: {
+    port: 3001,
+  },
   protocol: 'https:',
 }
 

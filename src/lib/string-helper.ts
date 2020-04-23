@@ -19,3 +19,7 @@ export const camelize = (text: string, separator: string = '_'): string => {
   words.slice(1).forEach((word) => result.push(capitalize(word)))
   return result.join('')
 }
+
+export const randomString = (): string => {
+  return new Date().getTime().toString()
+}

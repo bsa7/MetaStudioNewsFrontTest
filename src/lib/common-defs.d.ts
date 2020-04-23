@@ -1,7 +1,8 @@
 import { Dispatch } from 'redux'
 import { Stats } from 'webpack'
 import * as ApplicationPages from '@components/index'
-import { ThemeNames } from '@constants/enums'
+import { AlertAreaType, ThemeNames } from '@constants/enums'
+import { randomString } from './string-helper'
 
 export type AnyMap = {
   [key: string]: any
@@ -109,3 +110,4 @@ export type WebpackStats = {
 export type ThemeName = keyof typeof ThemeNames
 
 export type FormButtonClickHandler = () => void
+export type AlertAreaClickHandler = () => void

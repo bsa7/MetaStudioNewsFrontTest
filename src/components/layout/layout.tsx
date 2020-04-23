@@ -5,16 +5,29 @@ import { IApplicationState } from '@reducers'
 import { getDataFromState } from '@lib/flux-helper'
 import { ThemeMapper } from '@lib/theme-helper'
 import { ThemeName, WebpackStats } from '@lib/common-defs'
+import { NotificationMessage } from '@lib/notification-helper'
+import { NotificationActions } from '@actions'
+import { AlertArea } from '@interface-components'
+import { Dispatch } from 'redux'
 
 interface ILayoutProps {
+  messages?: Array<NotificationMessage>
+  hideNotificationMessage?: (messageId: string) => void
   themeName?: ThemeName
-  webpackStats: WebpackStats
+  webpackStats?: WebpackStats
 }
+type HideNotificationMessageHandler = () => void
+
 class LayoutContainer extends React.Component<ILayoutProps> {
+  hideNotificationMessage = (messageId: string): HideNotificationMessageHandler => {
+    return () => this.props.hideNotificationMessage(messageId)
+  }
+
   render() {
     const themeMapper = new ThemeMapper()
     const currentThemeStylesheetFileName: string = themeMapper.currentThemeStylesheetFileName
     const otherCssFileNames = themeMapper.otherCssFileNames
+    const { messages } = this.props
 
     return (
       <React.Fragment>
@@ -27,6 +40,16 @@ class LayoutContainer extends React.Component<ILayoutProps> {
           }
         </Helmet>
         <div>TODO: Application Header</div>
+        {
+          messages.map((message: NotificationMessage, index: number) => (
+            <AlertArea
+              key={`alert-message--${index}`}
+              onClick={this.hideNotificationMessage(message.id)}
+              title={message.title}
+              type={message.type}
+            />
+          ))
+        }
         {this.props.children}
         <div>TODO: Application Footer</div>
       </React.Fragment>
@@ -36,7 +59,20 @@ class LayoutContainer extends React.Component<ILayoutProps> {
 
 const mapStateToProps = (state: IApplicationState): ILayoutProps => {
   const { themeName, webpackStats } = getDataFromState<ILayoutProps>(state, 'session')
-  return { themeName, webpackStats }
+  const { messages } = getDataFromState<ILayoutProps>(state, 'notification')
+
+  return {
+    messages,
+    themeName,
+    webpackStats,
+  }
 }
 
-export const Layout = connect(mapStateToProps)(LayoutContainer)
+const mapDispatchToProps = (dispatch: Dispatch): ILayoutProps => {
+  const hideNotificationMessage = (messageId: string) => {
+    dispatch(NotificationActions.hideNotificationMessage(messageId))
+  }
+  return { hideNotificationMessage }
+}
+
+export const Layout = connect(mapStateToProps, mapDispatchToProps)(LayoutContainer)

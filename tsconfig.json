@@ -13,6 +13,7 @@
     "noImplicitAny": true,
     "outDir": "./dist/",
     "paths": {
+      "@actions": ["src/actions"],
       "@actions*": ["src/actions*"],
       "@components*": ["src/components*"],
       "@config*": ["config*"],

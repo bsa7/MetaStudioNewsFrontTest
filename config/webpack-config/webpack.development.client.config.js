@@ -2,12 +2,6 @@ const baseConfig = require('./webpack.base.config')('development')
 
 module.exports = {
   devtool: 'source-map',
-  devServer: {
-    colors: true,
-    inline: true,
-    hot: true,
-    contentBase: './dist',
-  },
   entry: {
     jsMain: [
       baseConfig.resolvePath('../../src/client/index.tsx'),

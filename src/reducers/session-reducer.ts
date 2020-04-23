@@ -48,6 +48,14 @@ export const sessionReducer = (state = initialState, action: Action) => {
     case actionTypes.REGISTER_USER__START: {
       break
     }
+    case actionTypes.LOGIN_USER__SUCCESS:
+    case actionTypes.REGISTER_USER__SUCCESS: {
+      break
+    }
+    case actionTypes.LOGIN_USER__FAILURE:
+    case actionTypes.REGISTER_USER__FAILURE: {
+      break
+    }
     default: {
       break
     }

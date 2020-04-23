@@ -3,6 +3,8 @@ import { FormEditHandler } from '@lib/common-defs'
 
 export interface ITextInputProps {
   defaultValue?: string
+  errorMessage?: string
+  errorMessageClassName?: string
   inputClassName?: string
   label?: string
   labelClassName?: string
@@ -10,8 +12,6 @@ export interface ITextInputProps {
   onChange: FormEditHandler
   placeholder?: string
   rootClassName?: string
-  small?: string
-  smallClassName?: string
   type?: 'text' | 'password'
 }
 
@@ -22,6 +22,8 @@ interface ITextInputElementAttributes {
 
 export const TextInput: React.FunctionComponent<ITextInputProps> = ({
   defaultValue,
+  errorMessage,
+  errorMessageClassName,
   inputClassName,
   label,
   labelClassName,
@@ -29,18 +31,16 @@ export const TextInput: React.FunctionComponent<ITextInputProps> = ({
   onChange,
   placeholder,
   rootClassName,
-  small,
-  smallClassName,
   type = 'text'
 }) => {
+  const errorMessageAttributes: ITextInputElementAttributes = {}
   const inputAttributes: ITextInputElementAttributes = {}
   const labelAttributes: ITextInputElementAttributes = {}
   const rootAttributes: ITextInputElementAttributes = {}
-  const smallAttributes: ITextInputElementAttributes = {}
+  if (typeof errorMessageClassName !== 'undefined') errorMessageAttributes.className = errorMessageClassName
   if (typeof inputClassName !== 'undefined') inputAttributes.className = inputClassName
   if (typeof labelClassName !== 'undefined') labelAttributes.className = labelClassName
   if (typeof rootClassName !== 'undefined') rootAttributes.className = rootClassName
-  if (typeof smallClassName !== 'undefined') smallAttributes.className = smallClassName
 
   return (
     <div {...rootAttributes}>
@@ -53,7 +53,7 @@ export const TextInput: React.FunctionComponent<ITextInputProps> = ({
         onChange={onChange}
         {...inputAttributes}
       />
-      <small {...smallAttributes}/>
+      <small {...errorMessageAttributes}>{errorMessage}</small>
     </div>
   )
 }
