@@ -18,10 +18,10 @@
 7. run `npm start` to start development server;
 
 ## Configuration
-1. [./config/front-settings.ts](./config/front-settings.ts) - contains some options to run or customize your front server.
-  - `hostSettings` - contains configuration data for front node.js server;
-  - `apiSettings` - contains connect information to backend api;
-  - `defaultThemeName` - name of default theme of client application;
-  - `applicationSecret` - secret key for server session;
+1. [./config/front-settings.ts](./config/front-settings.ts) - contains some options to run or customize your front server:
+   `hostSettings` - contains configuration data for front node.js server;
+   `apiSettings` - contains connect information to backend api;
+   `defaultThemeName` - name of default theme of client application;
+   `applicationSecret` - secret key for server session;
 
 2. [./config/routes.ts](./config/routes.ts) - contains info about application routes;

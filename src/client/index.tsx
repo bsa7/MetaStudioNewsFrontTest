@@ -7,8 +7,10 @@ import { Provider } from 'react-redux'
 import { configureStore } from '@lib/configure-store'
 import { initialApplicationState, IApplicationState } from '@reducers'
 import { ThemeMapper } from '@lib/theme-helper'
+import { historyGo, checkRouteRedirect } from '@lib/router-helper'
 
 const history = createBrowserHistory()
+
 const initialState: IApplicationState = initialApplicationState
 new ThemeMapper(initialState.session.webpackStats.cssStylesheetFileNames)
 const store = configureStore(initialState, history)
@@ -26,7 +28,14 @@ const hydrateEntireTree = (Component: any) => {
   ReactDOM.hydrate(<Component />, rootElement)
 }
 
-if (history) history.listen(() => hydrateEntireTree(Root))
+if (history) history.listen(() => {
+  const redirect = checkRouteRedirect()
+  if (redirect) {
+    historyGo(redirect)
+  }
+  hydrateEntireTree(Root)
+})
+
 if (typeof document !== 'undefined') hydrateEntireTree(Root)
 
 if ((module as any).hot) {

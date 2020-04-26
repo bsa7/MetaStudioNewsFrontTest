@@ -4,6 +4,7 @@ import { createAsyncAction, createSyncAction } from "@lib/flux-helper"
 import { IFetchParams, ThemeName } from "@lib/common-defs"
 import { cookie } from "@lib/cookie-helper"
 import { constants } from "@constants/string-constants"
+import { randomString } from "@lib/string-helper"
 
 
 interface IFetchUserParams extends IFetchParams {}
@@ -53,5 +54,12 @@ export const changeTheme = (changeThemeParams: IChangeThemeParams) => {
   return createSyncAction<IChangeThemeParams>({
     actionName: actionNames.CHANGE_THEME,
     result: { themeName },
+  })
+}
+
+export const updateLocationInfo = () => {
+  return createSyncAction<string>({
+    actionName: actionNames.UPDATE_LOCATION,
+    result: randomString()
   })
 }

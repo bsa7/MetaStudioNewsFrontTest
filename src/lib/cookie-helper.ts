@@ -75,7 +75,7 @@ class Cookie {
       }
       document.cookie = cookieParams
     } else if (this.serverAdapter) {
-      this.serverAdapter.save(name, value.toString(), serverOptionsFromClientOptions(options))
+      this.serverAdapter.set(name, value.toString(), serverOptionsFromClientOptions(options))
     }
   }
 

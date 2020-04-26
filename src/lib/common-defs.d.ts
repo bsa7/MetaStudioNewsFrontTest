@@ -30,6 +30,7 @@ export type RouteParams = {
   absolute?: boolean
   domain?: string
   status?: number
+  redirect?: () => string
 }
 
 export type PathSetting = {
@@ -86,7 +87,7 @@ export type CookieOptions = {
 export interface ICookieAdapter {
   get: (name: string) => string
   remove: (name: string) => void
-  save: (name: string, value: string, options: CookieOptions) => void
+  set: (name: string, value: string, options: CookieOptions) => void
 }
 
 export type ApiResponse = {

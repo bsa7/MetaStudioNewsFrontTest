@@ -8,7 +8,7 @@ import { router, Router } from '@components/router'
 import { Helmet } from 'react-helmet'
 import { Stats } from 'webpack'
 import { extractLocationInfo, getChunkFileNames, getClientCssFileNames } from '@lib/server-helper'
-import { AppGlobal, LocationInfoBrief, MiddlewareRenderer } from '@lib/common-defs'
+import { AppGlobal, LocationInfoBrief, MiddlewareRenderer, PathSetting } from '@lib/common-defs'
 import { HtmlTemplate } from '@components/shared/index.template.html'
 import { IApplicationState } from '@reducers/index'
 import { configureStore } from '@lib/configure-store'
@@ -17,6 +17,7 @@ import { fetchComponentData } from '@lib/fetch-component-data'
 import { initialApplicationState } from '@reducers/index'
 import { ThemeMapper } from '@lib/theme-helper'
 import { cookie } from '@lib/cookie-helper'
+import { checkRouteRedirect } from '@lib/router-helper'
 
 const fetchData = (store: Store): Promise<IApplicationState> => {
   return new Promise((resolve) => fetchComponentData(store.dispatch).then(() => {
@@ -29,20 +30,20 @@ const server = (incomingRequest: any, serverResponse: any, clientStats?: Stats) 
   const locationInfoBrief: LocationInfoBrief = extractLocationInfo(incomingRequest);
   (global as AppGlobal).locationInfoBrief = locationInfoBrief
 
-  Object.keys(incomingRequest.cookies).forEach((key) => {
-    incomingRequest.session[key] = incomingRequest.cookies[key]
-  })
   cookie.setServerAdapter({
-    get: (name: string) => {
-      const value = incomingRequest.session[name]
-      return value as string
-    },
+    get: (name: string) => incomingRequest.cookies[name],
     remove: (name: string) => incomingRequest.session[name] = '',
-    save: (name: string, value: string, options) => {
+    set: (name: string, value: string, options) => {
       serverResponse.cookie(name, value, options)
       incomingRequest.session[name] = value
     },
   })
+
+  const redirect = checkRouteRedirect()
+  if (redirect) {
+    serverResponse.redirect(302, redirect)
+    return
+  }
 
   const helmet = Helmet.renderStatic()
   const chunkFileNameData = getChunkFileNames(serverResponse)
@@ -50,7 +51,6 @@ const server = (incomingRequest: any, serverResponse: any, clientStats?: Stats) 
   const initialState: IApplicationState = initialApplicationState
   initialState.session.webpackStats.cssStylesheetFileNames = clientCssFileNames
   new ThemeMapper(clientCssFileNames)
-
   const store = configureStore(initialState)
   fetchData(store).then((state) => {
     const html = ReactDOMServer.renderToStaticMarkup(

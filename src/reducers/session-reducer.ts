@@ -4,8 +4,11 @@ import { Action as ReduxAction } from 'redux'
 import { LocationInfo, WebpackStats, ThemeName } from '@lib/common-defs'
 import { currentLocation } from '@lib/isomorphic-helper'
 import { ThemeNames } from '@constants/enums'
+import { cookie } from '@lib/cookie-helper'
+import { constants } from '@constants/string-constants'
 
 export type SessionReducerStore = {
+  applicationState?: string
   locationInfo: LocationInfo
   themeName?: ThemeName
   webpackStats: WebpackStats
@@ -41,6 +44,13 @@ export const sessionReducer = (state = initialState, action: Action) => {
       }
       break
     }
+    case actionTypes.UPDATE_LOCATION__START: {
+      newState = {
+        ...newState,
+        applicationState: action.result,
+      }
+      break
+    }
     case actionTypes.FETCH_USER__SUCCESS: {
       break
     }
@@ -50,10 +60,7 @@ export const sessionReducer = (state = initialState, action: Action) => {
     }
     case actionTypes.LOGIN_USER__SUCCESS:
     case actionTypes.REGISTER_USER__SUCCESS: {
-      break
-    }
-    case actionTypes.LOGIN_USER__FAILURE:
-    case actionTypes.REGISTER_USER__FAILURE: {
+      cookie.set(constants.USER_AUTH_TOKEN, action.result.authToken)
       break
     }
     default: {

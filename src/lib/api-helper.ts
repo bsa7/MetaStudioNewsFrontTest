@@ -15,7 +15,7 @@ export const camelizeAPIResponse = (response: ApiResponse) => {
 const parseJSON = (response: Response): Promise<ApiResponse> => {
   return new Promise((resolve) => {
     response.json().then((json) => resolve({
-      json,
+      json: camelizeAPIResponse(json),
       ok: response.ok,
       status: response.status,
     }))

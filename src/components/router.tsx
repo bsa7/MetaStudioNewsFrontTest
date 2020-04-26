@@ -1,31 +1,35 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
 import { pathSettings } from '@config/routes'
 import { LocationInfo, PathSetting, PathSettings } from '@lib/common-defs'
 import * as ApplicationPages from '@components/index'
 import { currentLocation } from '@lib/isomorphic-helper'
-import { getPropInSafe, traceError } from '@lib/sys-helper'
+import { getPropInSafe } from '@lib/sys-helper'
 import { ApplicationPageName } from '@lib/common-defs'
 import { ApplicationLinks } from '@constants/enums'
+import { getDataFromState } from '@lib/flux-helper'
+import { IApplicationState } from '@reducers'
 
 type IRouterProps = {
+  applicationState?: string
 }
 
 type IRouterState = {}
 
 type RouteSetting = {
-  hostname: string;
-  locationRegexp: string;
-  pathname: string;
-  pathSetting: PathSetting;
+  hostname: string
+  locationRegexp: string
+  pathname: string
+  pathSetting: PathSetting
+  success?: boolean
 }
 
-export class Router extends React.Component<IRouterProps, IRouterState> {
+class RouterComponent extends React.Component<IRouterProps, IRouterState> {
   private routes: Array<RouteSetting>
   private internalPathSettings: PathSettings
-  public status: number
   public links: ApplicationLinks
   static initialized: boolean
-  static instance: Router
+  static instance: RouterComponent
 
   constructor(props?: IRouterProps) {
     super(props)
@@ -68,9 +72,8 @@ export class Router extends React.Component<IRouterProps, IRouterState> {
     })
     if (typeof route === 'undefined') {
       route = this.routes.slice(-1)[0]
-      traceError({ message: `this.findRoute error: route ${locationInfo.pathname} not found.` })
+      throw new Error(`this.findRoute error: route ${locationInfo.pathname} not found.`)
     }
-    this.status = getPropInSafe(route, (r) => r.pathSetting.params.status, 200)
     return route
   }
 
@@ -79,14 +82,32 @@ export class Router extends React.Component<IRouterProps, IRouterState> {
     return currentRoute.pathSetting
   }
 
+  public get status(): number {
+    const route = this.findRoute()
+    return getPropInSafe(route, (r) => r.pathSetting.params.status, 200)
+  }
+
   render() {
+    const { applicationState } = this.props
     if (!Router.initialized) this.init()
     const currentRoute: RouteSetting = this.findRoute()
     const currentRoutePageName: string = currentRoute.pathSetting.componentName
     const CurrentPage = ApplicationPages[currentRoutePageName as ApplicationPageName]
 
-    return <CurrentPage />
+    return (
+      <div id={applicationState}>
+        <CurrentPage />
+      </div>
+    )
   }
 }
 
-export const router = new Router()
+
+const mapStateToProps = (state: IApplicationState): IRouterProps => {
+  const { applicationState } = getDataFromState(state, 'session')
+  return { applicationState }
+}
+
+export const Router = connect(mapStateToProps)(RouterComponent)
+
+export const router = new RouterComponent()
