@@ -6,6 +6,8 @@ import { Button as UnstyledButton, IButtonProps } from '@interface-components/un
 import { Button as BootstrapButton } from '@interface-components/bootstrap-theme/button'
 import { AlertArea as UnstyledAlertArea, IAlertAreaProps } from '@interface-components/unstyled/alert-area'
 import { AlertArea as BootstrapAlertArea } from '@interface-components/bootstrap-theme/alert-area'
+import { ApplicationHeader as UnstyledApplicationHeader } from '@interface-components/unstyled/application-header'
+import { ApplicationHeader as BootstrapApplicationHeader } from '@interface-components/bootstrap-theme/application-header'
 import { IApplicationState } from '@reducers'
 import { getDataFromState } from '@lib/flux-helper'
 import { ThemeName } from '@lib/common-defs'
@@ -15,12 +17,14 @@ export type InterfaceComponent = keyof typeof InterfaceFactory.components
 
 export class InterfaceFactory {
   static components = {
-    UnstyledButton,
+    BootstrapAlertArea,
+    BootstrapApplicationHeader,
     BootstrapButton,
-    UnstyledTextInput,
     BootstrapTextInput,
     UnstyledAlertArea,
-    BootstrapAlertArea,
+    UnstyledApplicationHeader,
+    UnstyledButton,
+    UnstyledTextInput,
   }
 
   public create = (type: InterfaceComponent) => InterfaceFactory.components[type]
@@ -34,7 +38,7 @@ interface IThemeStateProps {
 
 interface IThemeProps extends IThemeStateProps {
   componentName: string
-  componentProps: any
+  componentProps?: any
 }
 
 class ThemeComponentWrapper extends React.PureComponent<IThemeProps> {
@@ -47,7 +51,7 @@ class ThemeComponentWrapper extends React.PureComponent<IThemeProps> {
 
     return (
       <Component
-        {...componentProps}
+        {...(componentProps || {})}
       />
     )
   }
@@ -61,11 +65,13 @@ const mapStateToProps = (state: IApplicationState): IThemeStateProps => {
 const ThemeComponent = connect(mapStateToProps)(ThemeComponentWrapper)
 
 const AlertArea = (props: IAlertAreaProps) => <ThemeComponent componentName='AlertArea' componentProps={props} />
+const ApplicationHeader = () => <ThemeComponent componentName='ApplicationHeader' />
 const Button = (props: IButtonProps) => <ThemeComponent componentName='Button' componentProps={props} />
 const TextInput = (props: ITextInputProps) => <ThemeComponent componentName='TextInput' componentProps={props} />
 
 export {
   AlertArea,
+  ApplicationHeader,
   Button,
   TextInput,
 }

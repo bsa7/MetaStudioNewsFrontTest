@@ -1,8 +1,8 @@
 import { Dispatch } from 'redux'
+import { History } from 'history'
 import { Stats } from 'webpack'
 import * as ApplicationPages from '@components/index'
-import { AlertAreaType, ThemeNames } from '@constants/enums'
-import { randomString } from './string-helper'
+import { ThemeNames } from '@constants/enums'
 
 export type AnyMap = {
   [key: string]: any
@@ -68,6 +68,7 @@ export type AppGlobal = NodeJS.Global & {
 }
 
 export type AppWindow = typeof window & typeof globalThis & {
+  applicationHistory: History
   __PRELOADED_STATE__: string
   $REDUX_DEVTOOL: any
 }

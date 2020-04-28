@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { seoLink } from '@lib/router-helper'
 import { Layout } from '@components/layout'
-import { router } from '@components/router'
+import { links } from '@components/router'
 import { Column, Root, Row } from './styled'
 import { Button, TextInput } from '@interface-components'
 import { ThemeMapper } from '@lib/theme-helper'
@@ -20,7 +20,6 @@ export class Auth extends React.Component<IAuthProps> {
       passwordErrorMessage,
       passwordConfirmationErrorMessage,
     } = this.props
-    const { links } = router
     const titleText: string = `${isLoginMode ? 'Login' : 'Signup'}, my Friend!!!`
     const linkText: string = isLoginMode
       ? 'Not registered yet? Signup!'

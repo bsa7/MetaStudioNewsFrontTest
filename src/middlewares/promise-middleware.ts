@@ -1,12 +1,5 @@
 export const promiseMiddleware = () => (next: any) => (action: any) => {
   const { promise, types, type, ...rest } = action
-  console.log('#3', {
-    types,
-    type,
-    rest,
-    action,
-  })
-
   if (!promise && !type && !types) {
     return undefined
   }

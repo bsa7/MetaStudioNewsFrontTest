@@ -48,8 +48,9 @@ const server = (incomingRequest: any, serverResponse: any, clientStats?: Stats) 
   const helmet = Helmet.renderStatic()
   const chunkFileNameData = getChunkFileNames(serverResponse)
   const clientCssFileNames = getClientCssFileNames(chunkFileNameData)
-  const initialState: IApplicationState = initialApplicationState
+  const initialState: IApplicationState = initialApplicationState()
   initialState.session.webpackStats.cssStylesheetFileNames = clientCssFileNames
+
   new ThemeMapper(clientCssFileNames)
   const store = configureStore(initialState)
   fetchData(store).then((state) => {

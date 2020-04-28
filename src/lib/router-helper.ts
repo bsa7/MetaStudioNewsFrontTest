@@ -1,13 +1,13 @@
 import { pathSettings } from '@config/routes'
-import { PathSetting, RouteParams } from '@lib/common-defs'
+import { PathSetting, RouteParams, AppWindow } from '@lib/common-defs'
 import { hostSettings } from '@config/front-settings'
-import { currentLocation, isClientSide, locationInfoToLink, isServerSide } from '@lib/isomorphic-helper'
+import { currentLocation, isClientSide, locationInfoToLink } from '@lib/isomorphic-helper'
 import { paramsToSearch } from '@lib/json-api-helper'
 import { ApplicationLinks } from '@constants/enums'
 import { cookie } from './cookie-helper'
 import { constants } from '@constants/string-constants'
-import { router } from '@components/router'
-import { getPropInSafe } from './sys-helper'
+import { router, links } from '@components/router'
+import { getPropInSafe } from '@lib/sys-helper'
 
 export const get = (pathname: string, componentName: string, params = <RouteParams>{}): PathSetting => {
   const pathSetting: PathSetting = {
@@ -54,7 +54,7 @@ export const historyGo = (to: string) => {
       comparedPath = `${currentLocationInfo.protocol}//${currentLocationInfo.hostname}${comparedPath}`
     }
     if (comparedPath !== currentLocationInfo.href) {
-      history.pushState({}, '', to)
+      (window as AppWindow).applicationHistory.push(to)
     }
   }
 }
@@ -79,7 +79,6 @@ export const redirectTo = (serverResponse: any, pathname: string): void => {
 
 export const redirects = {
   redirectAuthenticatedUser(): string {
-    const { links } = router
     let redirectLink = undefined
     const userAuthToken = cookie.get(constants.USER_AUTH_TOKEN)
     if (userAuthToken) {
@@ -91,7 +90,6 @@ export const redirects = {
     let redirectLink = undefined
     const userAuthToken = cookie.get(constants.USER_AUTH_TOKEN)
     if (!userAuthToken) {
-      const { links } = router
       const locationInfo = currentLocation.locationInfo()
       const currentUrl = locationInfoToLink({ locationInfo })
       redirectAuthSuccess(currentUrl)

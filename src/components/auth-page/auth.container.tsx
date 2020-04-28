@@ -5,7 +5,7 @@ import { getDataFromState } from '@lib/flux-helper'
 import { Dispatch } from 'redux'
 import * as SessionActions from '@actions/session-actions'
 import { FormEditHandler, LocationInfo, ThemeName } from '@lib/common-defs'
-import { router } from '@components/router'
+import { router, links } from '@components/router'
 import { checkRouteRedirect, historyGo } from '@lib/router-helper'
 import { Auth } from './auth.view'
 
@@ -29,7 +29,6 @@ export interface IAuthMappedProps {
   loginUser?: (email: string, password: string) => any
   registerUser?: (email: string, password: string, passwordConfirmation: string) => any
   themeName?: ThemeName
-  updateLocationInfo?: () => void
 }
 
 export interface IAuthProps extends IAuthOwnProps, IAuthMappedProps {}
@@ -51,13 +50,11 @@ class AuthPage extends React.Component<IAuthProps, IAuthState> {
   state: IAuthState = {}
 
   isLoginMode = (): boolean => {
-    const { links } = router
     const currentRouteKey = router.currentPathSetting.key
     return currentRouteKey === links.LoginPage
   }
 
   isSignupMode = (): boolean => {
-    const { links } = router
     const currentRouteKey = router.currentPathSetting.key
     return currentRouteKey === links.SignupPage
   }
@@ -122,9 +119,7 @@ class AuthPage extends React.Component<IAuthProps, IAuthState> {
     const checkRouteAndRedirect = () => {
       const redirect = checkRouteRedirect()
       if (redirect) {
-        console.log('#101', { redirect })
-        historyGo(redirect)
-        this.props.updateLocationInfo()
+        router.redirectTo(redirect)
       }
     }
     if (this.isLoginMode()) {
@@ -178,11 +173,8 @@ const mapDispatchToProps = (dispatch: Dispatch): IAuthMappedProps => {
   const registerUser = (email: string, password: string, passwordConfirmation: string): any => {
     return dispatch(SessionActions.registerUser({ email, password, passwordConfirmation }))
   }
-  const updateLocationInfo = (): void => {
-    dispatch(SessionActions.updateLocationInfo())
-  }
 
-  return { changeTheme, loginUser, registerUser, updateLocationInfo }
+  return { changeTheme, loginUser, registerUser }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthPage)

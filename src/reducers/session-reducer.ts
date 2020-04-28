@@ -3,7 +3,6 @@ import { User } from '@lib/models'
 import { Action as ReduxAction } from 'redux'
 import { LocationInfo, WebpackStats, ThemeName } from '@lib/common-defs'
 import { currentLocation } from '@lib/isomorphic-helper'
-import { ThemeNames } from '@constants/enums'
 import { cookie } from '@lib/cookie-helper'
 import { constants } from '@constants/string-constants'
 
@@ -19,14 +18,16 @@ type Action = ReduxAction & {
   result?: any
 }
 
-export const initialState: SessionReducerStore = {
-  locationInfo: currentLocation.locationInfo(),
-  themeName: undefined,
-  webpackStats: {} as WebpackStats,
-  user: undefined,
+export const initialState = (): SessionReducerStore => {
+  return {
+    locationInfo: currentLocation.locationInfo(),
+    themeName: undefined,
+    webpackStats: {} as WebpackStats,
+    user: undefined,
+  }
 }
 
-export const sessionReducer = (state = initialState, action: Action) => {
+export const sessionReducer = (state = initialState(), action: Action) => {
   let newState = state
 
   switch (action.type) {

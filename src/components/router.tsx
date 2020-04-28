@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
+import { Dispatch } from 'redux'
 import { pathSettings } from '@config/routes'
 import { LocationInfo, PathSetting, PathSettings } from '@lib/common-defs'
 import * as ApplicationPages from '@components/index'
@@ -9,9 +10,12 @@ import { ApplicationPageName } from '@lib/common-defs'
 import { ApplicationLinks } from '@constants/enums'
 import { getDataFromState } from '@lib/flux-helper'
 import { IApplicationState } from '@reducers'
+import { SessionActions } from '@actions'
+import { historyGo } from '@lib/router-helper'
 
 type IRouterProps = {
   applicationState?: string
+  reloadApplication?: () => void
 }
 
 type IRouterState = {}
@@ -87,18 +91,23 @@ class RouterComponent extends React.Component<IRouterProps, IRouterState> {
     return getPropInSafe(route, (r) => r.pathSetting.params.status, 200)
   }
 
+  public reload(): void {
+    this.props.reloadApplication()
+  }
+
+  public redirectTo(to: string): void {
+    historyGo(to)
+    this.reload()
+  }
+
   render() {
-    const { applicationState } = this.props
+    // const { applicationState } = this.props
     if (!Router.initialized) this.init()
     const currentRoute: RouteSetting = this.findRoute()
     const currentRoutePageName: string = currentRoute.pathSetting.componentName
     const CurrentPage = ApplicationPages[currentRoutePageName as ApplicationPageName]
 
-    return (
-      <div id={applicationState}>
-        <CurrentPage />
-      </div>
-    )
+    return <CurrentPage />
   }
 }
 
@@ -108,6 +117,13 @@ const mapStateToProps = (state: IApplicationState): IRouterProps => {
   return { applicationState }
 }
 
-export const Router = connect(mapStateToProps)(RouterComponent)
+const mapDispatchToProps = (dispatch: Dispatch): IRouterProps => {
+  const reloadApplication = () => {
+    dispatch(SessionActions.updateLocationInfo())
+  }
+  return { reloadApplication }
+}
 
+export const Router = connect(mapStateToProps, mapDispatchToProps)(RouterComponent)
 export const router = new RouterComponent()
+export const links = router.links

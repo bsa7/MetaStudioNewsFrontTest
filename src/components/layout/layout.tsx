@@ -7,7 +7,7 @@ import { ThemeMapper } from '@lib/theme-helper'
 import { ThemeName, WebpackStats } from '@lib/common-defs'
 import { NotificationMessage } from '@lib/notification-helper'
 import { NotificationActions } from '@actions'
-import { AlertArea } from '@interface-components'
+import { AlertArea, ApplicationHeader } from '@interface-components'
 import { Dispatch } from 'redux'
 
 interface ILayoutProps {
@@ -39,7 +39,7 @@ class LayoutContainer extends React.Component<ILayoutProps> {
             ))
           }
         </Helmet>
-        <div>TODO: Application Header</div>
+        <ApplicationHeader />
         {
           messages.map((message: NotificationMessage, index: number) => (
             <AlertArea

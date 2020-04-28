@@ -10,16 +10,15 @@ export const isClientSide = () => {
 }
 
 class CurrentLocation {
-  constructor() {
-    if (CurrentLocation.initialized) {
-      return CurrentLocation.instance
-    }
-    CurrentLocation.initialized = true
-    CurrentLocation.instance = this
-  }
-  static initialized: boolean
   static instance: CurrentLocation
   static cachedLocation: string
+
+  constructor() {
+    if (CurrentLocation.instance) {
+      return CurrentLocation.instance
+    }
+    CurrentLocation.instance = this
+  }
 
   public locationInfo = (): LocationInfo => {
     // TODO add caching

@@ -26,6 +26,8 @@ if (typeof window !== 'undefined') {
   delete preloadedSessionState.router
 }
 
-export const initialApplicationState: IApplicationState = preloadedSessionState || {
-  session: initialSessionState,
+export const initialApplicationState = (): IApplicationState => {
+  return preloadedSessionState || {
+    session: initialSessionState(),
+  }
 }

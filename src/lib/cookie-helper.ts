@@ -99,12 +99,12 @@ export const cookie = new Cookie()
  * Токен авторизации (чтение / запись)
  */
 
-export const userAuthTokenCookie = (token: string): string => {
+export const userAuthTokenCookie = (token?: string): string => {
+  const result = cookie.get(constants.USER_AUTH_TOKEN)
   if (token) {
     cookie.set(constants.USER_AUTH_TOKEN, token)
   } else if (token === '') {
     cookie.remove(constants.USER_AUTH_TOKEN)
   }
-  const result = cookie.get(constants.USER_AUTH_TOKEN)
   return result
 }
