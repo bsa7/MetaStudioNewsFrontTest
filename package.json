@@ -7,7 +7,7 @@
     "build:css": "node-sass -o dist src/assets/scss/",
     "build:prod": "node_modules/.bin/webpack --mode=production",
     "start:dev": "ts-node src/server/index.development.ts --mode=development",
-    "start:prod": "node dist/server.js",
+    "start:prod": "node ./dist/server.js",
     "test": "jest --config jest.config.js"
   },
   "keywords": [],
