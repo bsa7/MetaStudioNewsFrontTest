@@ -45,8 +45,9 @@ export const extractLocationInfo = (incomingRequest: any): LocationInfoBrief => 
 }
 
 export const getChunkFileNames = (serverResponse: any): ChunkFileNameData => {
-  const webpackConfigurations = serverResponse.locals.webpackStats.toJson().children
   const result: ChunkFileNameData = {}
+  if (!serverResponse.locals.webpackStats) return result
+  const webpackConfigurations = serverResponse.locals.webpackStats.toJson().children
   webpackConfigurations.forEach((webpackConfig: any) => {
     const configFiles: Array<string> = []
     webpackConfig.chunks.forEach((x: any) => configFiles.push.apply(configFiles, x.files))

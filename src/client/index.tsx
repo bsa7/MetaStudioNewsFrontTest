@@ -34,7 +34,6 @@ const hydrateEntireTree = (Component: any) => {
 
 if (history) history.listen(() => {
   const redirect = checkRouteRedirect()
-  console.log('37', { redirect })
   if (redirect) {
     historyGo(redirect)
   }

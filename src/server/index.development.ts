@@ -8,8 +8,8 @@ import * as fs from 'fs'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import webpackHotServerMiddleware from 'webpack-hot-server-middleware'
-import { applicationSecret, hostSettings } from '../../config/front-settings'
 import webpackConfig from '../../webpack.config.js'
+import { applicationSecret, hostSettings } from '../../config/front-settings'
 import { MODES } from '../constants/enums'
 
 const modeCommandLineArgument = process.argv.find((arg) => /--mode/.test(arg))
@@ -40,6 +40,7 @@ if (devMode) {
   app.use(webpackHotMiddleware(clientCompiler))
   app.use(webpackHotServerMiddleware(compiler as any))
 }
+
 if (/https/.test(hostSettings.protocol)) {
   const sslConfig = {
     key: fs.readFileSync(hostSettings.https.keyFileName),

@@ -5,3 +5,4 @@ tmp
 config/front-settings.ts
 config/ssl/*.key
 config/ssl/*.pem
+.env

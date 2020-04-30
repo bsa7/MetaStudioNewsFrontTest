@@ -1,6 +1,7 @@
 const clientDevelopmentConfig = require('./config/webpack-config/webpack.development.client.config')
 const serverDevelopmentConfig = require('./config/webpack-config/webpack.development.server.config')
-const productionConfig = require('./config/webpack-config/webpack.production.config')
+const clientProductionConfig = require('./config/webpack-config/webpack.production.client.config')
+const serverProductionConfig = require('./config/webpack-config/webpack.production.server.config')
 
 module.exports = (env, argv) => {
   if (env === 'development') {
@@ -9,5 +10,8 @@ module.exports = (env, argv) => {
       { name: 'server', ...serverDevelopmentConfig },
     ]
   }
-  return productionConfig
+  return [
+    { name: 'client', ...clientProductionConfig },
+    { name: 'server', ...serverProductionConfig },
+  ]
 }

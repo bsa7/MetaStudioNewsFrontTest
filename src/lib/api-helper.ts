@@ -74,7 +74,7 @@ export const fetchJsonFromAPI = (fetchParams: IFetchParams) => {
     options.headers.Authorization = token
   }
 
-  let apiUrl = `${apiSettings.prefix(currentLocation.locationInfo().hostname)}${path}`
+  let apiUrl = `${apiSettings.hostname}${path}`
   if (!absolutePath) {
     if ([RestMethods.post, RestMethods.put].includes(method as RestMethods)) {
       const urlencoded = new URLSearchParams();

@@ -1,11 +1,11 @@
 const nodeExternals = require('webpack-node-externals')
-const baseConfig = require('./webpack.base.development.config')('development')
+const baseConfig = require('./webpack.base.production.config')('production')
 
 module.exports = {
   devtool: 'source-map',
-  entry: [baseConfig.resolvePath('../../src/server/server.tsx')],
+  entry: [baseConfig.resolvePath('../../src/server/index.production.ts')],
   externals: [nodeExternals()],
-  mode: 'development',
+  mode: 'production',
   module: baseConfig.module,
   output: {
     path: baseConfig.resolvePath('../../dist'),

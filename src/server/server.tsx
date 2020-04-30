@@ -74,6 +74,4 @@ const middlewareRenderer = (params: MiddlewareRenderer): RequestHandler => {
 
 export default middlewareRenderer
 
-export const productionServer = (req: any, res: any, next: any) => {
-  server(req, res)
-}
+export const productionServer = (req: any, res: any, next: any) => server(req, res)
